@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-project(csb1 VERSION 1.0.0 )
-set(csb1_VERSION_ABI 1)
+project(manco VERSION 1.0.0 )
+set(manco_VERSION_ABI 1)
 
 # Disable in source building
 if( "${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}" )
@@ -22,8 +22,8 @@ endif( )
 
 include(GitExternal)
 
-set(CSB1_DESCRIPTION "CSB1Plus (Simple Event Handler ++)")
-set(COMMON_PROJECT_DOMAIN maldicion069)
+set(MANCO_DESCRIPTION "ManCo (MANager COntainer)")
+set(COMMON_PROJECT_DOMAIN Cristian Rodríguez Bernal)
 
 include(Common)
 
@@ -34,16 +34,15 @@ common_find_package(Lexis REQUIRED)
 common_find_package(ZeroEQ REQUIRED)
 common_find_package(gmrvlex REQUIRED)
 
-list(APPEND CSB1_DEPENDENT_LIBRARIES 
+list(APPEND MANCO_DEPENDENT_LIBRARIES 
   Lexis 
   ZeroEQ 
   gmrvlex
 )
 
-
 common_find_package_post( )
 
-add_subdirectory( csb1 )
+add_subdirectory( manco )
 add_subdirectory( examples )
 
 set(DOXYGEN_MAINPAGE_MD ${PROJECT_SOURCE_DIR}/README.md)

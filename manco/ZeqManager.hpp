@@ -4,7 +4,7 @@
 #include <zeroeq/zeroeq.h>
 #include <gmrvlex/gmrvlex.h>
 
-namespace csb1
+namespace manco
 {
 	class ZeqManager
 	{

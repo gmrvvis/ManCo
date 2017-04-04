@@ -3,7 +3,7 @@
 #include <iterator>
 #include <thread>
 
-namespace csb1
+namespace manco
 {
 	zeroeq::Publisher* ZeqManager::_publisher = nullptr;
     zeroeq::Subscriber* ZeqManager::_subscriber = nullptr;
