@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
-project(csb1_zeq VERSION 1.0.0 )
-set(csb1_zeq_VERSION_ABI 1)
+project(csb1 VERSION 1.0.0 )
+set(csb1_VERSION_ABI 1)
 
 # Disable in source building
 if( "${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}" )
@@ -22,7 +22,7 @@ endif( )
 
 include(GitExternal)
 
-set(CSB1_ZEQ_DESCRIPTION "CSB1_ZEQPlus (Simple Event Handler ++)")
+set(CSB1_DESCRIPTION "CSB1Plus (Simple Event Handler ++)")
 set(COMMON_PROJECT_DOMAIN maldicion069)
 
 include(Common)
@@ -36,7 +36,7 @@ common_find_package(Lexis REQUIRED)
 common_find_package(ZeroEQ REQUIRED)
 common_find_package(gmrvlex REQUIRED)
 
-list(APPEND CSB1_ZEQ_DEPENDENT_LIBRARIES 
+list(APPEND CSB1_DEPENDENT_LIBRARIES 
   Qt5Core
 
   Lexis 
@@ -47,8 +47,8 @@ list(APPEND CSB1_ZEQ_DEPENDENT_LIBRARIES
 
 common_find_package_post( )
 
-add_subdirectory( csb1_zeq )
-#add_subdirectory( examples )
+add_subdirectory( csb1 )
+add_subdirectory( examples )
 
 set(DOXYGEN_MAINPAGE_MD ${PROJECT_SOURCE_DIR}/README.md)
 set(DOXYGEN_EXTRA_INPUT ${DOXYGEN_MAINPAGE_MD})
