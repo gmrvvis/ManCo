@@ -7,11 +7,6 @@ namespace csb1
 {
 	zeroeq::Publisher* ZeqManager::_publisher = nullptr;
     zeroeq::Subscriber* ZeqManager::_subscriber = nullptr;
-
-
-    
-
-    std::function<void(int)> ZeqManager::ff;
 	
     std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> ZeqManager::_receivedSyncGroupCallback;
     std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> ZeqManager::_changeColorUpdateCallback;
@@ -21,24 +16,14 @@ namespace csb1
 
 
     static void thread_func() {
-    	std::cout << "receiveEvents" << std::endl;
-        ZeqManager::subscriber( )->receive( );
+    	while(true) 
+    	{
+	    	//std::cout << "receiveEvents" << std::endl;
+	        ZeqManager::subscriber( )->receive( 0 );
+    	}
     }
 
     static std::thread th;
-
-    /*SubscriberTimer::SubscriberTimer( void )
-	{
-		connect( this, SIGNAL( timeout( ) ),
-			this, SLOT( receiveEvents( )));
-	}
-
-	void SubscriberTimer::receiveEvents( void )
-    {
-		auto subscriber = ZeqManager::subscriber( );
-		while ( subscriber->receive( 0 ) );
-		this->start( 50 );
-    }*/
 
     zeroeq::Subscriber* ZeqManager::subscriber( void )
     {
@@ -53,7 +38,6 @@ namespace csb1
 		_subscriber = new zeroeq::Subscriber(
 			session.empty( ) ? zeroeq::DEFAULT_SESSION : session );
 
-#ifdef CSB1_ZEQ_USE_GMRVLEX
 		_subscriber->subscribe(
 			zeroeq::gmrv::SyncGroup::ZEROBUF_TYPE_IDENTIFIER( ),
 			[&]( const void* data, const size_t size )
@@ -103,37 +87,9 @@ namespace csb1
                     _receivedSyncNeededCallback( );
                 }
 			});
-#endif
-        //_timer->start( 50 );
 
         th = std::thread(thread_func);
-        th.join();
 	}
-
-    /*void ZeqManager::_receivedSyncGroupCallback( zeroeq::gmrv::ConstSyncGroupPtr )
-	{
-
-	}
-
-	void ZeqManager::_changeColorUpdateCallback( zeroeq::gmrv::ConstChangeColorGroupPtr )
-	{
-
-	}
-
-	void ZeqManager::_receivedDestroyGroupCallback( zeroeq::gmrv::ConstDestroyGroupPtr )
-	{
-
-	}
-
-	void ZeqManager::_changeNameGroupUpdateCallback( zeroeq::gmrv::ConstChangeNameGroupPtr )
-	{
-
-	}
-
-	void ZeqManager::_receivedSyncNeededCallback( zeroeq::gmrv::ConstSyncNeededPtr )
-	{
-
-    }*/
 
 	void ZeqManager::publishChangeColor( const std::string& key, const unsigned int& red, 
 		const unsigned int& green, const unsigned int& blue )

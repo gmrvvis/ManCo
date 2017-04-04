@@ -30,15 +30,11 @@ include(Common)
 # Allow warnings
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 
-
-common_find_package(Qt5Core SYSTEM REQUIRED)
 common_find_package(Lexis REQUIRED)
 common_find_package(ZeroEQ REQUIRED)
 common_find_package(gmrvlex REQUIRED)
 
 list(APPEND CSB1_DEPENDENT_LIBRARIES 
-  Qt5Core
-
   Lexis 
   ZeroEQ 
   gmrvlex

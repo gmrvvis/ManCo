@@ -9,12 +9,10 @@ namespace csb1
 	class ZeqManager
 	{
 	public:
-		static void init( const std::string& /*session*/ );
+		static void init( const std::string& session );
 		~ZeqManager( void );
         static zeroeq::Subscriber* subscriber( void );
 
-        static std::function<void(int)> ff;
-		
         static std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> _receivedSyncGroupCallback;
         static std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> _changeColorUpdateCallback;
         static std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )> _receivedDestroyGroupCallback;

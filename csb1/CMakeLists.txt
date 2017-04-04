@@ -15,8 +15,6 @@ set( CSB1_LINK_LIBRARIES
   ZeroEQ
   Lexis
   gmrvlex
-
-  Qt5::Core
 )
 
 common_library( csb1 )
