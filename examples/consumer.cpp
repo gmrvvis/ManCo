@@ -9,14 +9,13 @@ using namespace manco;
 #include <iostream>
 #include <algorithm>
 
-void example(zeroeq::gmrv::ConstDestroyGroupPtr)
+void receiveDestroyGroup(zeroeq::gmrv::ConstDestroyGroupPtr)
 {
-	std::cout << "RECEIVED DESTROY GROUP" << std::endl;
+  std::cout << "RECEIVED DESTROY GROUP" << std::endl;
 }
-
-void print_num(int i)
+void receiveChangeNameGroup(zeroeq::gmrv::ConstChangeNameGroupPtr)
 {
-    std::cout << i << '\n';
+  std::cout << "RECEIVED CHANGE NAME GROUP" << std::endl;
 }
 
 int main( )
@@ -24,7 +23,8 @@ int main( )
   std::cout << "HELLO CONSUMER" << std::endl;
   manco::ZeqManager::init( "hbp://" );
 
-  manco::ZeqManager::_receivedDestroyGroupCallback = example;//std::bind(&example);
+  manco::ZeqManager::_receivedDestroyGroupCallback = receiveDestroyGroup;//std::bind(&example);
+  manco::ZeqManager::_receivedChangeNameGroupUpdateCallback = receiveChangeNameGroup;//std::bind(&example);
 
   while(true) 
   {
