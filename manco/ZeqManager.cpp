@@ -1,19 +1,23 @@
 #include "ZeqManager.hpp"
 #include <algorithm>
 #include <iterator>
-#include <thread>
 
 namespace manco
 {
   zeroeq::Publisher* ZeqManager::_publisher = nullptr;
   zeroeq::Subscriber* ZeqManager::_subscriber = nullptr;
+  std::thread ZeqManager::th;
 
   std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> ZeqManager::_receivedSyncGroupCallback;
   std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> ZeqManager::_receivedChangeColorUpdateCallback;
   std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )> ZeqManager::_receivedDestroyGroupCallback;
   std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )> ZeqManager::_receivedChangeNameGroupUpdateCallback;
   std::function<void( void )> ZeqManager::_receivedSyncNeededCallback;
-
+  
+  ZeqManager::~ZeqManager( void )
+  {
+    ZeqManager::th.join( );
+  }
 
   static void thread_func()
   {
@@ -23,8 +27,6 @@ namespace manco
       ZeqManager::subscriber( )->receive( 0 );
     }
   }
-
-  static std::thread th;
 
   zeroeq::Subscriber* ZeqManager::subscriber( void )
   {

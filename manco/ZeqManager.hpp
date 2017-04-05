@@ -3,6 +3,11 @@
 
 #include <zeroeq/zeroeq.h>
 #include <gmrvlex/gmrvlex.h>
+#include <thread>
+
+#define APICOLAT "APICOLAT"
+#define SPINERET "SPINERET"
+#define CLINT "CLINT"
 
 namespace manco
 {
@@ -35,6 +40,8 @@ namespace manco
 //#ifdef CSB1_ZEQ_USE_ZEROEQ
     static zeroeq::Subscriber* _subscriber;
     static zeroeq::Publisher* _publisher;
+
+    static std::thread th;
 //#endif
   };
 }
