@@ -8,6 +8,7 @@
 #define APICOLAT "APICOLAT"
 #define SPINERET "SPINERET"
 #define CLINT "CLINT"
+#define DELIMITER "|&|"
 
 namespace manco
 {
@@ -32,11 +33,16 @@ namespace manco
     static void publishDestroyGroup( const std::string& key );
 
     static void publishSyncGroup( const std::string& key, const std::string& name, 
-    const std::string& owner, const std::vector<std::string>& ids, 
-    const unsigned int& red, const unsigned int& green, const unsigned int& blue );
+        const std::string& owner, const std::vector<std::string>& ids, 
+        const unsigned int& red, const unsigned int& green, const unsigned int& blue );
 
-    static void publishSyncNeeded( );
+    static void publishSyncNeeded( void );
+
+    static bool isListen( void );
+    static void enableListen( void );
+    static void disableListen( void );
   protected:
+    static bool _listen;
 //#ifdef CSB1_ZEQ_USE_ZEROEQ
     static zeroeq::Subscriber* _subscriber;
     static zeroeq::Publisher* _publisher;
