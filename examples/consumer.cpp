@@ -41,7 +41,7 @@ void receivedSyncGroup( zeroeq::gmrv::ConstSyncGroupPtr o )
     "\n\towner: " << o->getOwnerString( ) << 
     "\n\tcolor: (" << color[0] << ", " << color[1] << ", "  << color[2] << ")" <<
     "\n\tids: "; // << o->getIdsString( ) <<
-  std::vector< std::string > v = split( o->getIdsString( ), "|&|" );
+  std::vector< std::string > v = split( o->getIdsString( ), DELIMITER );
   for ( auto it = v.begin(); it != v.end(); ++it )
   {
     std::cout << *it << ' ';

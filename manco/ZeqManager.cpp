@@ -157,10 +157,18 @@ namespace manco
     {
       std::vector<unsigned int> color = { red, green, blue };
 
-      std::stringstream  ss;
-      std::copy(ids.begin(), ids.end(), std::ostream_iterator<std::string>(ss, DELIMITER));
+      std::string s;
 
-      _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, owner, ss.str( ), color ) );
+      for ( std::vector<std::string>::const_iterator it = ids.begin( ); it != ids.end( ); ++it )
+      {
+        s += *it;
+        if ( it != ids.end() - 1 )
+        {
+          s += DELIMITER;
+        }
+      }
+
+      _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, owner, s, color ) );
     }
   }
 
