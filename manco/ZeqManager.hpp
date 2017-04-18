@@ -41,8 +41,10 @@ namespace manco
     static bool isListen( void );
     static void enableListen( void );
     static void disableListen( void );
+    static void close( void );
   protected:
     static bool _listen;
+    static bool _runThread;
 //#ifdef CSB1_ZEQ_USE_ZEROEQ
     static zeroeq::Subscriber* _subscriber;
     static zeroeq::Publisher* _publisher;

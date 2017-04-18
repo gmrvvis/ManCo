@@ -7,7 +7,9 @@ namespace manco
   zeroeq::Publisher* ZeqManager::_publisher = nullptr;
   zeroeq::Subscriber* ZeqManager::_subscriber = nullptr;
   std::thread ZeqManager::th;
+
   bool ZeqManager::_listen = true;
+  bool ZeqManager::_runThread = true;
 
   std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> ZeqManager::_receivedSyncGroupCallback;
   std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> ZeqManager::_receivedChangeColorUpdateCallback;
@@ -19,7 +21,6 @@ namespace manco
   {
     ZeqManager::th.join( );
   }
-
 
   bool ZeqManager::isListen( )
   {
@@ -34,13 +35,10 @@ namespace manco
     _listen = false;
   }
 
-  static void thread_func()
+  void ZeqManager::close( void )
   {
-    while(true) 
-    {
-      //std::cout << "receiveEvents" << std::endl;
-      ZeqManager::subscriber( )->receive( 0 );
-    }
+    _runThread = false;
+    th.join();
   }
 
   zeroeq::Subscriber* ZeqManager::subscriber( void )
@@ -121,7 +119,13 @@ namespace manco
         }
       });
 
-    th = std::thread(thread_func);
+    th = std::thread([&](){
+      while( _runThread ) 
+      {
+        //std::cout << "receiveEvents" << std::endl;
+        ZeqManager::subscriber( )->receive( 0 );
+      }
+    });
   }
 
   void ZeqManager::publishChangeColor( const std::string& key, const unsigned int& red, 
