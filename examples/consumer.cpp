@@ -56,12 +56,17 @@ void receivedChangeColor( zeroeq::gmrv::ConstChangeColorGroupPtr o )
     ")" << std::endl;
 }
 
-int main( )
+int main( int argc, char** argv )
 {
-  //split("aa|&|bb|&|cc|&|dd", "|&|");
-
   std::cout << "HELLO CONSUMER" << std::endl;
-  manco::ZeqManager::init( "hbp://" );
+
+  if( argc < 2 )
+  {
+    std::cout << "mancoProducer <session>" << std::endl;
+    return -1;
+  }
+
+  manco::ZeqManager::init( argv[ 1 ] );
 
   manco::ZeqManager::_receivedDestroyGroupCallback = receivedDestroyGroup;
   manco::ZeqManager::_receivedChangeNameGroupUpdateCallback = receivedChangeNameGroup;

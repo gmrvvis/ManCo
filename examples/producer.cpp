@@ -13,10 +13,17 @@ int randomMessage( )
   return min + (rand() % (int)(max - min + 1));
 }
 
-int main( )
+int main( int argc, char** argv )
 {
   std::cout << "HELLO PRODUCER" << std::endl;
-  manco::ZeqManager::init( "hbp://" );
+
+  if( argc < 2 )
+  {
+    std::cout << "mancoProducer <session>" << std::endl;
+    return -1;
+  }
+
+  manco::ZeqManager::init( argv[ 1 ] );
 
   std::this_thread::sleep_for(std::chrono::milliseconds(2500));
   std::cout << "Sending sync group event" << std::endl;
