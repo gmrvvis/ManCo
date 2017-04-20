@@ -33,21 +33,28 @@ namespace manco
     void publishDestroyGroup( const std::string& key );
 
     void publishSyncGroup( const std::string& key, const std::string& name,
-      const std::string& owner, const std::vector<std::string>& ids,
-      const unsigned int& red, const unsigned int& green, const unsigned int& blue );
+      const ApplicationType& owner, const std::vector<std::string>& ids,
+      const unsigned int& red, const unsigned int& green, 
+      const unsigned int& blue );
 
     void publishSyncNeeded( void );
 
     void publishSyncXml( const std::string& filename );
 
-    void setReceivedSyncGroupCallback( const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb);
-    void setReceivedChangeColorUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb);
-    void setReceivedDestroyGroupCallback( const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb);
-    void setReceivedChangeNameGroupUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb);
-    void setReceivedSyncNeededCallback( const std::function<void( void )>& cb );
-    void setReceivedSyncXmlCallback( const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb);
+    void setReceivedSyncGroupCallback( 
+      const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb);
+    void setReceivedChangeColorUpdateCallback( 
+      const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb);
+    void setReceivedDestroyGroupCallback( 
+      const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb);
+    void setReceivedChangeNameGroupUpdateCallback( 
+      const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb);
+    void setReceivedSyncNeededCallback( 
+      const std::function<void( void )>& cb );
+    void setReceivedSyncXmlCallback( 
+      const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb);
 
-    std::string getOwner( ApplicationType cad) const;
+    static std::string getOwner( ApplicationType cad );
 
     bool isListen( void );
     void enableListen( void );
@@ -64,15 +71,15 @@ namespace manco
   private:
     ZeqManager( void );
     ~ZeqManager( void );
-    ZeqManager(ZeqManager const&) = delete;
-    void operator=(ZeqManager const&) = delete;
+    ZeqManager( ZeqManager const& ) = delete;
+    void operator=( ZeqManager const& ) = delete;
 
     std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> _receivedSyncGroupCallback;
     std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> _receivedChangeColorUpdateCallback;
     std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )> _receivedDestroyGroupCallback;
     std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )> _receivedChangeNameGroupUpdateCallback;
     std::function<void( void )> _receivedSyncNeededCallback;
-    std::function<void(  zeroeq::gmrv::ConstSyncXmlPtr )> _receivedSyncXmlCallback;
+    std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )> _receivedSyncXmlCallback;
   };
 }
 
