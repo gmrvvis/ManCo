@@ -4,22 +4,24 @@
 
 namespace manco
 {
-  zeroeq::Publisher* ZeqManager::_publisher = nullptr;
-  zeroeq::Subscriber* ZeqManager::_subscriber = nullptr;
-  std::thread ZeqManager::th;
-
-  bool ZeqManager::_listen = true;
-  bool ZeqManager::_runThread = true;
-
-  std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> ZeqManager::_receivedSyncGroupCallback;
-  std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> ZeqManager::_receivedChangeColorUpdateCallback;
-  std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )> ZeqManager::_receivedDestroyGroupCallback;
-  std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )> ZeqManager::_receivedChangeNameGroupUpdateCallback;
-  std::function<void( void )> ZeqManager::_receivedSyncNeededCallback;
+  ZeqManager& ZeqManager::instance()
+  {
+    static ZeqManager _instance;
+    return _instance;
+  }
   
+  ZeqManager::ZeqManager( void )
+    : _isInit( false )
+    , _listen( true )
+    , _runThread( true )
+  {
+
+  }
+
   ZeqManager::~ZeqManager( void )
   {
-    ZeqManager::th.join( );
+    _runThread = false;
+    th.join();
   }
 
   bool ZeqManager::isListen( )
@@ -35,12 +37,6 @@ namespace manco
     _listen = false;
   }
 
-  void ZeqManager::close( void )
-  {
-    _runThread = false;
-    th.join();
-  }
-
   zeroeq::Subscriber* ZeqManager::subscriber( void )
   {
     return _subscriber;
@@ -48,6 +44,12 @@ namespace manco
 
   void ZeqManager::init( const std::string& session )
   {
+    if (_isInit)
+    {
+      std::cerr << "error: ZeqManager is already init!" << std::endl;
+      return;
+    }
+
     _publisher = new zeroeq::Publisher(
       session.empty( ) ? zeroeq::DEFAULT_SESSION : session );
 
@@ -118,6 +120,19 @@ namespace manco
           }
         }
       });
+    _subscriber->subscribe(
+      zeroeq::gmrv::SyncXml::ZEROBUF_TYPE_IDENTIFIER( ),
+      [&]( const void* data, const size_t size )
+      {
+        if ( isListen( ) )
+        {
+          if ( _receivedSyncXmlCallback )
+          {
+            _receivedSyncXmlCallback(
+                zeroeq::gmrv::SyncXml::create( data, size));
+          }
+        }
+      });
 
     th = std::thread([&](){
       while( _runThread ) 
@@ -126,6 +141,8 @@ namespace manco
         ZeqManager::subscriber( )->receive( 0 );
       }
     });
+
+    _isInit = true;
   }
 
   void ZeqManager::publishChangeColor( const std::string& key, const unsigned int& red, 
@@ -172,6 +189,8 @@ namespace manco
         }
       }
 
+      //std::cout << "SyncGroup: " << s << std::endl;
+
       _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, owner, s, color ) );
     }
   }
@@ -183,4 +202,64 @@ namespace manco
       _publisher->publish( zeroeq::gmrv::SyncNeeded( ) );
     }
   }
+
+  void ZeqManager::publishSyncXml( const std::string& filename )
+  {
+    if ( _publisher && isListen( ) )
+    {
+      _publisher->publish( zeroeq::gmrv::SyncXml( filename ) );
+    }
+  }
+
+  void ZeqManager::setReceivedSyncGroupCallback( const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb)
+  {
+    _receivedSyncGroupCallback = cb;
+  }
+
+  void ZeqManager::setReceivedChangeColorUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb)
+  {
+    _receivedChangeColorUpdateCallback = cb;
+  }
+
+  void ZeqManager::setReceivedDestroyGroupCallback( const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb)
+  {
+    _receivedDestroyGroupCallback = cb;
+  }
+
+  void ZeqManager::setReceivedChangeNameGroupUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb)
+  {
+    _receivedChangeNameGroupUpdateCallback = cb;
+  }
+
+  void ZeqManager::setReceivedSyncNeededCallback( const std::function<void( void )>& cb )
+  {
+    _receivedSyncNeededCallback = cb;
+  }
+
+  void ZeqManager::setReceivedSyncXmlCallback( const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb)
+  {
+    _receivedSyncXmlCallback = cb;
+  }
+
+  std::string ZeqManager::getOwner( ApplicationType cad ) const
+  {
+    std::string result;
+    switch(cad)
+    {
+      case APICOLAT:
+      {
+        result = std::string( "APICOLAT" ); break;
+      }
+      case SPINERET:
+      {
+        result = std::string( "SPINERET" ); break;
+      }
+      case CLINT:
+      {
+        result = std::string( "CLINT" ); break;
+      }
+    }
+    return result;
+  }
+
 }

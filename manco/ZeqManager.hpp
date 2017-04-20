@@ -5,52 +5,74 @@
 #include <gmrvlex/gmrvlex.h>
 #include <thread>
 
-#define APICOLAT "APICOLAT"
-#define SPINERET "SPINERET"
-#define CLINT "CLINT"
 #define DELIMITER "|&|"
 
 namespace manco
 {
+  enum ApplicationType
+  {
+    APICOLAT,
+    SPINERET,
+    CLINT
+  };
+
   class ZeqManager
   {
   public:
-    static void init( const std::string& session );
-    ~ZeqManager( void );
-    static zeroeq::Subscriber* subscriber( void );
 
-    static std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> _receivedSyncGroupCallback;
-    static std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> _receivedChangeColorUpdateCallback;
-    static std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )> _receivedDestroyGroupCallback;
-    static std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )> _receivedChangeNameGroupUpdateCallback;
-    static std::function<void( void )> _receivedSyncNeededCallback;
+    static ZeqManager& instance();
 
-    static void publishChangeColor( const std::string& key, const unsigned int& red, 
-    const unsigned int& green, const unsigned int& blue );
+    void init( const std::string& session );
+    zeroeq::Subscriber* subscriber( void );
 
-    static void publishChangeName( const std::string& key, const std::string& name );
+    void publishChangeColor( const std::string& key, const unsigned int& red,
+      const unsigned int& green, const unsigned int& blue );
 
-    static void publishDestroyGroup( const std::string& key );
+    void publishChangeName( const std::string& key, const std::string& name );
 
-    static void publishSyncGroup( const std::string& key, const std::string& name, 
-        const std::string& owner, const std::vector<std::string>& ids, 
-        const unsigned int& red, const unsigned int& green, const unsigned int& blue );
+    void publishDestroyGroup( const std::string& key );
 
-    static void publishSyncNeeded( void );
+    void publishSyncGroup( const std::string& key, const std::string& name,
+      const std::string& owner, const std::vector<std::string>& ids,
+      const unsigned int& red, const unsigned int& green, const unsigned int& blue );
 
-    static bool isListen( void );
-    static void enableListen( void );
-    static void disableListen( void );
-    static void close( void );
+    void publishSyncNeeded( void );
+
+    void publishSyncXml( const std::string& filename );
+
+    void setReceivedSyncGroupCallback( const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb);
+    void setReceivedChangeColorUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb);
+    void setReceivedDestroyGroupCallback( const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb);
+    void setReceivedChangeNameGroupUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb);
+    void setReceivedSyncNeededCallback( const std::function<void( void )>& cb );
+    void setReceivedSyncXmlCallback( const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb);
+
+    std::string getOwner( ApplicationType cad) const;
+
+    bool isListen( void );
+    void enableListen( void );
+    void disableListen( void );
+
   protected:
-    static bool _listen;
-    static bool _runThread;
-//#ifdef CSB1_ZEQ_USE_ZEROEQ
-    static zeroeq::Subscriber* _subscriber;
-    static zeroeq::Publisher* _publisher;
+    bool _isInit;
+    bool _listen;
+    bool _runThread;
+    zeroeq::Subscriber* _subscriber;
+    zeroeq::Publisher* _publisher;
+    std::thread th;
 
-    static std::thread th;
-//#endif
+  private:
+    ZeqManager( void );
+    ~ZeqManager( void );
+    ZeqManager(ZeqManager const&) = delete;
+    void operator=(ZeqManager const&) = delete;
+
+    std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )> _receivedSyncGroupCallback;
+    std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )> _receivedChangeColorUpdateCallback;
+    std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )> _receivedDestroyGroupCallback;
+    std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )> _receivedChangeNameGroupUpdateCallback;
+    std::function<void( void )> _receivedSyncNeededCallback;
+    std::function<void(  zeroeq::gmrv::ConstSyncXmlPtr )> _receivedSyncXmlCallback;
   };
 }
 
