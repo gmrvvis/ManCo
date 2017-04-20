@@ -35,7 +35,7 @@ void receivedDestroyGroup(zeroeq::gmrv::ConstDestroyGroupPtr o )
 
 void receivedChangeNameGroup(zeroeq::gmrv::ConstChangeNameGroupPtr)
 {
-  std::cout << "RECEIVED ChangeNameGroup" << std::endl;
+  std::cout << "Received ChangeNameGroup" << std::endl;
 }
 
 void receivedSyncGroup( zeroeq::gmrv::ConstSyncGroupPtr o )
@@ -65,7 +65,7 @@ void receivedChangeColor( zeroeq::gmrv::ConstChangeColorGroupPtr o )
 
 void receivedSyncXml(zeroeq::gmrv::ConstSyncXmlPtr o)
 {
-  std::cout << "RECEIVED SyncXml (" << o->getFilenameString( ) << ")" << std::endl;
+  std::cout << "Received SyncXml (" << o->getFilenameString( ) << ")" << std::endl;
 }
 
 int main( int argc, char** argv )

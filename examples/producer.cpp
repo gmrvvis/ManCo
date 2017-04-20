@@ -13,6 +13,13 @@ int randomMessage( )
   return min + (rand() % (int)(max - min + 1));
 }
 
+int randomColorChannel( )
+{
+  static int min = 0;
+  static int max = 255;
+  return min + (rand() % (int)(max - min + 1));
+}
+
 std::vector<std::string> randomNumbers( const int& n )
 {
   std::vector<std::string> numbers;
@@ -47,8 +54,8 @@ int main( int argc, char** argv )
 
   std::cout << "Sending sync group event" << std::endl;
   manco::ZeqManager::instance().publishSyncGroup( std::string( "group" ),
-    std::string( "randomName" ), std::string( "OWNER" ),
-    randomNumbers(5) , 255, 255, 255 );
+    std::string( "randomName" ), manco::ApplicationType::CLINT,
+    randomNumbers( 5 ), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
 
   while(true)
   {
@@ -67,8 +74,8 @@ int main( int argc, char** argv )
       case 2:
         std::cout << "Sending sync group event" << std::endl;
         manco::ZeqManager::instance().publishSyncGroup( std::string( "group" ),
-          std::string( "randomName" ), std::string( "OWNER" ),
-          randomNumbers(5), 255, 255, 255 );
+          std::string( "randomName" ), manco::ApplicationType::CLINT,
+          randomNumbers(5), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
         break;
     }
   }

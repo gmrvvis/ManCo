@@ -171,7 +171,7 @@ namespace manco
   }
 
   void ZeqManager::publishSyncGroup( const std::string& key, const std::string& name, 
-    const std::string& owner, const std::vector<std::string>& ids, 
+    const ApplicationType& owner, const std::vector<std::string>& ids, 
     const unsigned int& red, const unsigned int& green, const unsigned int& blue )
   {
     if ( _publisher && isListen( ) )
@@ -180,7 +180,8 @@ namespace manco
 
       std::string s;
 
-      for ( std::vector<std::string>::const_iterator it = ids.begin( ); it != ids.end( ); ++it )
+      for ( std::vector<std::string>::const_iterator it = 
+        ids.begin( ); it != ids.end( ); ++it )
       {
         s += *it;
         if ( it != ids.end() - 1 )
@@ -189,9 +190,9 @@ namespace manco
         }
       }
 
-      //std::cout << "SyncGroup: " << s << std::endl;
-
-      _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, owner, s, color ) );
+      _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, 
+        ZeqManager::getOwner( owner ), 
+        s, color ) );
     }
   }
 
@@ -241,22 +242,25 @@ namespace manco
     _receivedSyncXmlCallback = cb;
   }
 
-  std::string ZeqManager::getOwner( ApplicationType cad ) const
+  std::string ZeqManager::getOwner( ApplicationType cad )
   {
     std::string result;
     switch(cad)
     {
       case APICOLAT:
       {
-        result = std::string( "APICOLAT" ); break;
+        result = std::string( "APICOLAT" );
+        break;
       }
       case SPINERET:
       {
-        result = std::string( "SPINERET" ); break;
+        result = std::string( "SPINERET" );
+        break;
       }
       case CLINT:
       {
-        result = std::string( "CLINT" ); break;
+        result = std::string( "CLINT" );
+        break;
       }
     }
     return result;
