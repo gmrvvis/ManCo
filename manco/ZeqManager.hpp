@@ -6,6 +6,7 @@
 #include <thread>
 
 #define DELIMITER "|&|"
+#define KEY_DELIMITER "#!#"
 
 namespace manco
 {
@@ -55,6 +56,8 @@ namespace manco
       const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb);
 
     static std::string getOwner( ApplicationType cad );
+    static std::string getKeyOwner( const std::string& key,
+      const ApplicationType& owner );
 
     bool isListen( void );
     void enableListen( void );
