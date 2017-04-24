@@ -265,5 +265,11 @@ namespace manco
     }
     return result;
   }
+  std::string ZeqManager::getKeyOwner( const std::string& key,
+      const ApplicationType& owner )
+  {
+    return key + std::string( KEY_DELIMITER )
+      + ZeqManager::getOwner( owner );
+  }
 
 }
