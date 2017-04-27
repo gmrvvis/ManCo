@@ -56,7 +56,7 @@ namespace manco
       const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb);
 
     static std::string getOwner( ApplicationType cad );
-    static std::string getKeyOwner( const std::string& key,
+    static std::string getKeyOwner( const std::string& name,
       const ApplicationType& owner );
 
     bool isListen( void );

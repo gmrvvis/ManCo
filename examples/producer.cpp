@@ -5,6 +5,7 @@ using namespace manco;
 
 #include <chrono>
 #include <thread>
+#include <ctime>
 
 int randomMessage( )
 {
@@ -28,10 +29,53 @@ std::vector<std::string> randomNumbers( const int& n )
 
   for (int i = 0; i < n; ++i)
   {
-     std::string number = std::to_string(min + ( rand() % ( int )( max - min + 1 ) ));
-     numbers.push_back(number);
+    std::string number = std::to_string(min + ( rand() % ( int )( max - min + 1 ) ));
+    numbers.push_back(number);
   }
   return numbers;
+}
+
+std::vector<std::string> customRandom( )
+{
+  std::vector<std::string> numbers;
+  for (int i = 0; i < randomColorChannel( ); ++i)
+  {
+    int r = randomMessage( ) + 1;
+
+    std::string name = std::string("B") + std::to_string( r );
+    name += "-700000";
+
+    static int min = 0;
+    int max = 200;
+    if ( r == 1 ) 
+    {
+      max = 500;
+    }
+    else if ( r == 2 ) 
+    {
+      max = 500;
+    }
+    else if ( r == 3 ) 
+    {
+      max = 980;
+    }
+    else if ( r == 4 ) 
+    {
+      max = 990;
+    }
+    r = min + ( rand() % ( int )( max - min + 1 ) );
+    std::string number = std::to_string(r);
+    if ( r > 10 && r < 100 )
+    {
+      number = std::string( "0" ) + number;
+    }
+    else if ( r < 10 )
+    {
+      number = std::string( "00" ) + number;
+    }
+    numbers.push_back(name + number);
+  }
+  return numbers; // 100-200
 }
 
 int main( int argc, char** argv )
@@ -55,7 +99,7 @@ int main( int argc, char** argv )
   std::cout << "Sending sync group event" << std::endl;
   manco::ZeqManager::instance().publishSyncGroup( std::string( "group" ),
     std::string( "randomName" ), manco::ApplicationType::CLINT,
-    randomNumbers( 5 ), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
+    customRandom( ), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
 
   while(true)
   {
@@ -72,10 +116,11 @@ int main( int argc, char** argv )
           std::string( "randomName" ) );
         break;
       case 2:
+        std::string gName = std::to_string( (int)time(NULL) );
         std::cout << "Sending sync group event" << std::endl;
-        manco::ZeqManager::instance().publishSyncGroup( std::string( "group" ),
-          std::string( "randomName" ), manco::ApplicationType::CLINT,
-          randomNumbers(5), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
+        manco::ZeqManager::instance().publishSyncGroup( manco::ZeqManager::getKeyOwner( gName, manco::ApplicationType::SPINERET ),
+          gName, manco::ApplicationType::CLINT,
+          customRandom( ), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
         break;
     }
   }
