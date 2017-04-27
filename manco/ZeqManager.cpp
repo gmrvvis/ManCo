@@ -180,22 +180,25 @@ namespace manco
 
       std::vector<std::string> _ids = ids;
       ZeqManager::removeEmptyStrings(_ids);
-  
-      std::string s;
 
-      for ( std::vector<std::string>::const_iterator it = 
-        _ids.begin( ); it != _ids.end( ); ++it )
-      {
-        s += *it;
-        if ( it != _ids.end() - 1 )
+      if ( !_ids.empty( ) )
+      {    
+        std::string s;
+
+        for ( std::vector<std::string>::const_iterator it = 
+          _ids.begin( ); it != _ids.end( ); ++it )
         {
-          s += DELIMITER;
+          s += *it;
+          if ( it != _ids.end() - 1 )
+          {
+            s += DELIMITER;
+          }
         }
-      }
 
-      _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, 
-        ZeqManager::getOwner( owner ), 
-        s, color ) );
+        _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, 
+          ZeqManager::getOwner( owner ), 
+          s, color ) );
+      }
     }
   }
 
