@@ -62,6 +62,8 @@ namespace manco
     bool isListen( void );
     void enableListen( void );
     void disableListen( void );
+    
+    static void removeEmptyStrings(std::vector<std::string>& strings);
 
   protected:
     bool _isInit;
@@ -83,6 +85,7 @@ namespace manco
     std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )> _receivedChangeNameGroupUpdateCallback;
     std::function<void( void )> _receivedSyncNeededCallback;
     std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )> _receivedSyncXmlCallback;
+
   };
 }
 

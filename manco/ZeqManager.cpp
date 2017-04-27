@@ -178,13 +178,16 @@ namespace manco
     {
       std::vector<unsigned int> color = { red, green, blue };
 
+      std::vector<std::string> _ids = ids;
+      ZeqManager::removeEmptyStrings(_ids);
+  
       std::string s;
 
       for ( std::vector<std::string>::const_iterator it = 
-        ids.begin( ); it != ids.end( ); ++it )
+        _ids.begin( ); it != _ids.end( ); ++it )
       {
         s += *it;
-        if ( it != ids.end() - 1 )
+        if ( it != _ids.end() - 1 )
         {
           s += DELIMITER;
         }
@@ -271,5 +274,11 @@ namespace manco
     return name + std::string( KEY_DELIMITER )
       + ZeqManager::getOwner( owner );
   }
+  
+  void ZeqManager::removeEmptyStrings(std::vector<std::string>& strings)
+  {
+    std::vector<std::string>::iterator it = std::remove_if(strings.begin(), strings.end(),mem_fun_ref(&std::string::empty));
+    strings.erase(it, strings.end());
+  }  
 
 }
