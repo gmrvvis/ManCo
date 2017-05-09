@@ -133,6 +133,19 @@ namespace manco
           }
         }
       });
+    _subscriber->subscribe(
+      zeroeq::gmrv::SyncTransferFunc::ZEROBUF_TYPE_IDENTIFIER( ),
+      [&]( const void* data, const size_t size )
+      {
+        if ( isListen( ) )
+        {
+          if ( _receivedSyncTransferFuncCallback )
+          {
+            _receivedSyncTransferFuncCallback(
+                zeroeq::gmrv::SyncTransferFunc::create( data, size));
+          }
+        }
+      });
 
     th = std::thread([&](){
       while( _runThread ) 
@@ -218,6 +231,30 @@ namespace manco
     }
   }
 
+  void ZeqManager::publishSyncTransferFunc( const std::map<std::string, float>& scores, const std::vector<zeroeq::gmrv::Color>& colors )
+  {
+    if ( _publisher && isListen( ) )
+    {
+      if ( !scores.empty( ) )
+      {    
+        std::vector< float > scoreValue;
+        std::string idsValue;
+        int scoresSize = scores.size();
+
+        for ( const auto& score : scores )
+        {
+          idsValue += score.first;
+          scoreValue.push_back( score.second );
+          if ( --scoresSize > 0 )
+          {
+            idsValue += DELIMITER;
+          }   
+        }        
+        _publisher->publish( zeroeq::gmrv::SyncTransferFunc( colors, scoreValue, idsValue ) );
+      }
+    }
+  }
+
   void ZeqManager::setReceivedSyncGroupCallback( const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb)
   {
     _receivedSyncGroupCallback = cb;
@@ -246,6 +283,11 @@ namespace manco
   void ZeqManager::setReceivedSyncXmlCallback( const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb)
   {
     _receivedSyncXmlCallback = cb;
+  }
+
+  void ZeqManager::setReceivedSyncTransferFuncCallback( const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb)
+  {
+    _receivedSyncTransferFuncCallback = cb;
   }
 
   std::string ZeqManager::getOwner( ApplicationType cad )
@@ -283,5 +325,24 @@ namespace manco
     std::vector<std::string>::iterator it = std::remove_if(strings.begin(), strings.end(),mem_fun_ref(&std::string::empty));
     strings.erase(it, strings.end());
   }  
+
+  std::vector<std::string> ZeqManager::split( const std::string& str, const std::string& delimiter )
+  {
+    std::string s = str;
+    std::vector< std::string > v;
+    size_t pos = 0;
+    std::string token;
+    while ( ( pos = s.find( delimiter ) ) != std::string::npos )
+    {
+      token = s.substr( 0, pos );
+      v.push_back( token );
+      s.erase( 0, pos + delimiter.length( ) );
+    }
+    if (s != "") 
+    {
+      v.push_back( s );
+    }
+    return v;
+  }
 
 }

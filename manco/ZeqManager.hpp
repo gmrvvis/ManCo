@@ -42,6 +42,8 @@ namespace manco
 
     void publishSyncXml( const std::string& filename );
 
+    void publishSyncTransferFunc( const std::map<std::string, float>& scores, const std::vector<zeroeq::gmrv::Color>& colors);
+
     void setReceivedSyncGroupCallback( 
       const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb);
     void setReceivedChangeColorUpdateCallback( 
@@ -54,6 +56,8 @@ namespace manco
       const std::function<void( void )>& cb );
     void setReceivedSyncXmlCallback( 
       const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb);
+    void setReceivedSyncTransferFuncCallback(
+      const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb);
 
     static std::string getOwner( ApplicationType cad );
     static std::string getKeyOwner( const std::string& name,
@@ -64,6 +68,7 @@ namespace manco
     void disableListen( void );
     
     static void removeEmptyStrings(std::vector<std::string>& strings);
+    static std::vector<std::string> split( const std::string& str, const std::string& delimiter );
 
   protected:
     bool _isInit;
@@ -85,6 +90,7 @@ namespace manco
     std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )> _receivedChangeNameGroupUpdateCallback;
     std::function<void( void )> _receivedSyncNeededCallback;
     std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )> _receivedSyncXmlCallback;
+    std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )> _receivedSyncTransferFuncCallback;
 
   };
 }

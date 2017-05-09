@@ -89,12 +89,25 @@ int main( int argc, char** argv )
   }
 
   manco::ZeqManager::instance().init( argv[ 1 ] );
-  //manco::ZeqManager::instance().init( argv[ 1 ] );
 
   std::this_thread::sleep_for( std::chrono::milliseconds(2500) );
 
+  //Example of Sync xml event
   std::cout << "Sending sync xml event" << std::endl;
   manco::ZeqManager::instance().publishSyncXml( std::string( "xml" ) );
+
+  //Example of Sync transfer function event
+  std::cout << "Sending sync transfer func event" << std::endl;
+//std::vector<zeroeq::gmrv::Color> colors;
+
+  std::map<std::string, float> scores;
+  scores["B-123213"] = 0.343f;
+  scores["B-456546"] = 0.6667f;
+  scores["B-345564"] = 0.966f;
+  //colors.push_back( new zeroeq::gmrv::Color(2, 3, 4) );
+  manco::ZeqManager::instance().publishSyncTransferFunc( scores, { 
+    {1, 2, 3}, {254, 4, 0}, {124, 50, 27}, {231, 0, 66}   
+  });
 
   std::cout << "Sending sync group event" << std::endl;
   manco::ZeqManager::instance().publishSyncGroup( std::string( "group" ),
@@ -118,10 +131,19 @@ int main( int argc, char** argv )
       case 2:
         std::string gName = std::to_string( (int)time(NULL) );
         std::cout << "Sending sync group event" << std::endl;
-        manco::ZeqManager::instance().publishSyncGroup( manco::ZeqManager::getKeyOwner( gName, manco::ApplicationType::SPINERET ),
-          gName, manco::ApplicationType::CLINT,
+        manco::ZeqManager::instance().publishSyncGroup( manco::ZeqManager::getKeyOwner( gName, manco::ApplicationType::CLINT ),
+          gName, manco::ApplicationType::SPINERET,
           customRandom( ), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
         break;
+      /*case 3:
+        std::cout << "Sending sync transfer func event" << std::endl;
+        std::vector<zeroeq::gmrv::Color> colors;
+        colors.push_back( (float)randomColorChannel( ), (float)randomColorChannel( ), (float)randomColorChannel( ) );
+        manco::ZeqManager::instance().publishSyncTransferFunc( { 
+          {1, 2, 3}, {254, 4, 0}, {124, 50, 27}, {231, 0, 66}   
+        } );      
+        break;
+*/
     }
   }
   return 0;

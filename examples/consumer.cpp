@@ -12,22 +12,6 @@ using namespace manco;
 #include <chrono>
 #include <thread>
 
-std::vector<std::string> split( const std::string& str, const std::string& delimiter )
-{
-  std::string s = str;
-  std::vector< std::string > v;
-  size_t pos = 0;
-  std::string token;
-  while ( ( pos = s.find( delimiter ) ) != std::string::npos )
-  {
-    token = s.substr( 0, pos );
-    v.push_back( token );
-    s.erase( 0, pos + delimiter.length( ) );
-  }
-  v.push_back(s);
-  return v;
-}
-
 void receivedDestroyGroup(zeroeq::gmrv::ConstDestroyGroupPtr o )
 {
   std::cout << "Received DestroyGroup (" << o->getKeyString( ) << ")" << std::endl;
@@ -47,7 +31,7 @@ void receivedSyncGroup( zeroeq::gmrv::ConstSyncGroupPtr o )
     "\n\towner: " << o->getOwnerString( ) << 
     "\n\tcolor: (" << color[0] << ", " << color[1] << ", "  << color[2] << ")" <<
     "\n\tids: "; //<< o->getIdsString( ) << ")";
-  std::vector< std::string > v = split( o->getIdsString( ), DELIMITER );
+  std::vector< std::string > v = manco::ZeqManager::split( o->getIdsString( ), DELIMITER );
   for ( auto it = v.begin(); it != v.end(); ++it )
   {
     std::cout << *it << ' ';
@@ -66,6 +50,23 @@ void receivedChangeColor( zeroeq::gmrv::ConstChangeColorGroupPtr o )
 void receivedSyncXml(zeroeq::gmrv::ConstSyncXmlPtr o)
 {
   std::cout << "Received SyncXml (" << o->getFilenameString( ) << ")" << std::endl;
+}
+
+void receivedSyncTransferFunc(zeroeq::gmrv::ConstSyncTransferFuncPtr o)
+{
+  std::cout << "Received SyncTransferFunc (" << std::endl;
+  for ( const auto& color : o->getColors( ) )
+  {
+    std::cout << "\tcolor: (" << color.getRed( ) << ", " << color.getGreen( ) << ", " << color.getBlue( ) << ")" << std::endl;
+  }
+  std::cout << ")" << std::endl;
+  std::vector< std::string > v = manco::ZeqManager::split( o->getIdsString( ), DELIMITER );
+  for ( auto it = v.begin(); it != v.end(); ++it )
+  {
+    std::cout << *it << ' ';
+  }
+  std::cout << ")" << std::endl;
+
 }
 
 int main( int argc, char** argv )
@@ -87,6 +88,7 @@ int main( int argc, char** argv )
   manco::ZeqManager::instance().setReceivedChangeNameGroupUpdateCallback( receivedChangeNameGroup );
   manco::ZeqManager::instance().setReceivedSyncGroupCallback( receivedSyncGroup );
   manco::ZeqManager::instance().setReceivedChangeColorUpdateCallback( receivedChangeColor );
+  manco::ZeqManager::instance().setReceivedSyncTransferFuncCallback( receivedSyncTransferFunc );
 
   while(true) 
   {
