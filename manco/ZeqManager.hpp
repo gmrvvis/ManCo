@@ -1,10 +1,6 @@
 #ifndef __CSB1_ZEQ_MANAGER__
 #define __CSB1_ZEQ_MANAGER__
 
-#if defined(__clang__)
-  #define _LIBCPP_EXTERN_TEMPLATE(...)
-#endif
-
 #include <zeroeq/zeroeq.h>
 #include <gmrvlex/gmrvlex.h>
 #include <thread>

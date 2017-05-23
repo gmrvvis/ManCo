@@ -1,6 +1,12 @@
-cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+﻿cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 project(manco VERSION 1.0.0 )
 set(manco_VERSION_ABI 1)
+
+# WAR for AppleClang bug
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang")
+	
+  set(CMAKE_CXX_FLAGS "-D'_LIBCPP_EXTERN_TEMPLATE(...)='")
+endif()
 
 # Disable in source building
 if( "${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}" )
