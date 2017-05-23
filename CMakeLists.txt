@@ -16,6 +16,7 @@ list(APPEND CMAKE_MODULE_PATH
   ${PROJECT_SOURCE_DIR}/CMake
   ${CMAKE_SOURCE_DIR}/CMake/common)
 
+
 # Default build type is Debug
 if( NOT CMAKE_BUILD_TYPE )
   set( CMAKE_BUILD_TYPE Debug )
@@ -30,8 +31,10 @@ include(GitExternal)
 set(MANCO_DESCRIPTION "ManCo (MANager COntainer)")
 set(COMMON_PROJECT_DOMAIN Cristian Rodríguez Bernal)
 
-include(Common)
+configure_file(${PROJECT_SOURCE_DIR}/CMake/Findlibzmq.cmake ${PROJECT_SOURCE_DIR}/CMake/common/ COPYONLY)
 
+include(Common)
+			
 # Allow warnings
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
 
