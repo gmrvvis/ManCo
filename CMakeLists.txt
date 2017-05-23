@@ -31,7 +31,9 @@ include(GitExternal)
 set(MANCO_DESCRIPTION "ManCo (MANager COntainer)")
 set(COMMON_PROJECT_DOMAIN Cristian Rodríguez Bernal)
 
-configure_file(${PROJECT_SOURCE_DIR}/CMake/Findlibzmq.cmake ${PROJECT_SOURCE_DIR}/CMake/common/ COPYONLY)
+if( WIN32 )
+  configure_file(${PROJECT_SOURCE_DIR}/CMake/Findlibzmq.cmake ${PROJECT_SOURCE_DIR}/CMake/common/ COPYONLY)
+endif( )
 
 include(Common)
 			
