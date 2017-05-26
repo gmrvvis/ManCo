@@ -42,7 +42,7 @@ set( COMMON_PROJECT_DOMAIN gmrv.es )
 if( WIN32 )
   configure_file( 
     ${PROJECT_SOURCE_DIR}/CMake/Findlibzmq.cmake
-    ${PROJECT_SOURCE_DIR}/CMake/common/ 
+    ${CMAKE_SOURCE_DIR}/CMake/common/Findlibzmq.cmake
     COPYONLY
   )
 endif( )
