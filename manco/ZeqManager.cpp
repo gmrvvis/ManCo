@@ -1,3 +1,14 @@
+/**
+ * @file    ZeqManager.cpp
+ * @brief
+ * @author  Cristian Rodriguez Bernal <ccrisrober@gmail.com>
+ * @author  Gonzalo Bayo Martinez <gonzalobayo@gmail.com>
+ * @date
+ * @remarks Copyright (c) GMRV/URJC. All rights reserved.
+ Do not distribute without further notice.
+*/
+
+
 #include "ZeqManager.hpp"
 #include <algorithm>
 #include <iterator>

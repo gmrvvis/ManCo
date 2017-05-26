@@ -4,12 +4,11 @@ Win7-VS12-x64-subproject:
   stage: build
   script:
   - call %ENVFILESDIR%\Boost-1.64-vs12-x64.bat
-  - call %ENVFILESDIR%\OpenSceneGraph-3.4.0-vs12-x64.bat
-  - call %ENVFILESDIR%\Qt-5.4.bat
   - call %ENVFILESDIR%\zeromq-4.0.4.bat
   - set PATH=%PATH%;"c:\Program Files (x86)\Git\bin"
   - set BUILD_GENERATOR=Visual Studio 12 Win64
   - set CMAKE_EXTRA_ARGS="-DWITH_NO_CONSOLE=ON"
+  - pip install pyparsing
   - bash --login .gitlab-ci.sh
   tags:
   - win7
@@ -18,9 +17,6 @@ Win7-VS12-x64-subproject:
 Ubuntu-subproject:
   stage: build
   script:
-  - module load OpenSceneGraph-3.4.0
-  - module load Qt-5.5
-  - module load OpenSceneGraph-3.4.0-Qt5.5
   - bash .gitlab-ci.sh
   tags:
   - ubuntu
@@ -29,8 +25,6 @@ Ubuntu-subproject:
 OSX-subproject:
   stage: build
   script:
-  - module load Qt-5.4
-  - module load OpenSceneGraph-3.4.0
   - bash .gitlab-ci.sh
   tags:
   - osx

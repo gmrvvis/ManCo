@@ -20,6 +20,7 @@
 #
 #  LIBZMQ_FOUND              System has libzmq libs/headers
 #  LIBZMQ_LIBRARIES          The libzmq libraries
+#  libzmq_LIBRARIES          The libzmq libraries
 #  LIBZMQ_INCLUDE_DIR        The location of libzmq headers
 #  LIBZMQ_INCLUDE_DIRS       The location of libzmq headers
 
@@ -106,6 +107,7 @@ find_package_handle_standard_args(libzmq DEFAULT_MSG
 
 set(LIBZMQ_INCLUDE_DIRS ${LIBZMQ_INCLUDE_DIR})
 set(LIBZMQ_LIBRARIES ${LIBZMQ_LIBRARY})
+set(libzmq_LIBRARIES ${LIBZMQ_LIBRARY})
 
 mark_as_advanced(
   LIBZMQ_ROOT_DIR
