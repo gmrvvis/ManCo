@@ -250,7 +250,7 @@ namespace manco
       {    
         std::vector< float > scoreValue;
         std::string idsValue;
-        int scoresSize = scores.size();
+        int scoresSize = ( int )scores.size( );
 
         for ( const auto& score : scores )
         {
