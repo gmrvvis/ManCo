@@ -8,6 +8,10 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 cmake_minimum_required( VERSION 3.1 FATAL_ERROR )
 project( manco VERSION 1.0.0 )
+set( PROJECT_VERSION_MAJOR "1" )
+set( PROJECT_VERSION_MINOR "0" )
+set( PROJECT_VERSION_PATCH "0" )
+set( PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} )
 set( manco_VERSION_ABI 1 )
 
 # WAR for AppleClang bug
@@ -38,14 +42,6 @@ include( GitExternal )
 
 set( MANCO_DESCRIPTION "ManCo (MANager COntainer)" )
 set( COMMON_PROJECT_DOMAIN gmrv.es )
-
-if( WIN32 )
-  configure_file( 
-    ${PROJECT_SOURCE_DIR}/CMake/Findlibzmq.cmake
-    ${CMAKE_SOURCE_DIR}/CMake/common/Findlibzmq.cmake
-    COPYONLY
-  )
-endif( )
 
 include( Common )
 			
