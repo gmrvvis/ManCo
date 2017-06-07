@@ -63,6 +63,21 @@ common_find_package_post( )
 add_subdirectory( manco )
 add_subdirectory( examples )
 
+if( MSVC )
+  # Allow warnings
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
+  
+  # Set manco as startup project on Visual Studio, CMake v3.6
+  #set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT "manco")
+  
+  # Excluded because they fail on compilation on win32 and CI
+  set(EXCLUDED_FROM_BUILD
+    "Lexis-test-render-histogram"
+	"vmmlib-test-aabb"
+  )
+  set_target_properties(${EXCLUDED_FROM_BUILD} PROPERTIES EXCLUDE_FROM_ALL "TRUE")
+endif( )
+
 set( DOXYGEN_MAINPAGE_MD ${PROJECT_SOURCE_DIR}/README.md )
 set( DOXYGEN_EXTRA_INPUT ${DOXYGEN_MAINPAGE_MD} )
 include( CPackConfig )
