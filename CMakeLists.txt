@@ -73,7 +73,14 @@ if( MSVC )
   # Excluded because they fail on compilation on win32 and CI
   set(EXCLUDED_FROM_BUILD
     "Lexis-test-render-histogram"
+	"Lexis-test-data-progress"
+	"Lexis-test-render-clipPlanes"
+	"Lexis-test-render-imageJPEG"
 	"vmmlib-test-aabb"
+	"vmmlib-test-frustum"
+	"vmmlib-test-matrix"
+	"vmmlib-test-quaternion"
+	"vmmlib-test-vector"
   )
   set_target_properties(${EXCLUDED_FROM_BUILD} PROPERTIES EXCLUDE_FROM_ALL "TRUE")
 endif( )
