@@ -81,6 +81,7 @@ if( MSVC )
 	"vmmlib-test-matrix"
 	"vmmlib-test-quaternion"
 	"vmmlib-test-vector"
+	"testschema"
   )
   set_target_properties(${EXCLUDED_FROM_BUILD} PROPERTIES EXCLUDE_FROM_ALL "TRUE")
 endif( )
