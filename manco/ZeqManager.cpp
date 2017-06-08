@@ -69,7 +69,7 @@ namespace manco
 
     _subscriber->subscribe(
       zeroeq::gmrv::SyncGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-      [&]( const void* data, const size_t size )
+        (zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
       {
         if ( isListen( ) )
         {
@@ -82,7 +82,7 @@ namespace manco
       });
     _subscriber->subscribe(
       zeroeq::gmrv::ChangeColorGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-      [&]( const void* data, const size_t size )
+		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
       {
         if ( isListen( ) )
         {
@@ -95,7 +95,7 @@ namespace manco
       });
     _subscriber->subscribe(
       zeroeq::gmrv::DestroyGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-      [&]( const void* data, const size_t size )
+		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
       {
         if ( isListen( ) )
         {
@@ -108,7 +108,7 @@ namespace manco
       });
     _subscriber->subscribe(
       zeroeq::gmrv::ChangeNameGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-      [&]( const void* data, const size_t size )
+		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
       {
         if ( isListen( ) )
         {
@@ -121,7 +121,7 @@ namespace manco
       });
     _subscriber->subscribe(
       zeroeq::gmrv::SyncNeeded::ZEROBUF_TYPE_IDENTIFIER( ),
-      [&]( const void*, const size_t )
+		(zeroeq::EventPayloadFunc)[&]( const void*, const size_t )
       {
         if ( isListen( ) )
         {
@@ -133,7 +133,7 @@ namespace manco
       });
     _subscriber->subscribe(
       zeroeq::gmrv::SyncXml::ZEROBUF_TYPE_IDENTIFIER( ),
-      [&]( const void* data, const size_t size )
+		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
       {
         if ( isListen( ) )
         {
@@ -146,7 +146,7 @@ namespace manco
       });
     _subscriber->subscribe(
       zeroeq::gmrv::SyncTransferFunc::ZEROBUF_TYPE_IDENTIFIER( ),
-      [&]( const void* data, const size_t size )
+		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
       {
         if ( isListen( ) )
         {
