@@ -8,14 +8,13 @@
  Do not distribute without further notice.
 */
 
-
 #include "ZeqManager.hpp"
 #include <algorithm>
 #include <iterator>
 
 namespace manco
 {
-  ZeqManager& ZeqManager::instance()
+  ZeqManager& ZeqManager::instance( )
   {
     static ZeqManager _instance;
     return _instance;
@@ -50,78 +49,82 @@ namespace manco
 
   zeroeq::Subscriber* ZeqManager::subscriber( void )
   {
-    return _subscriber;
+    return _subscriber.get();
   }
 
   void ZeqManager::init( const std::string& session )
   {
-    if (_isInit)
+    if (_isInit )
     {
       std::cerr << "error: ZeqManager is already init!" << std::endl;
       return;
     }
 
-    _publisher = new zeroeq::Publisher(
-      session.empty( ) ? zeroeq::DEFAULT_SESSION : session );
+    _publisher.reset( new zeroeq::Publisher(
+      session.empty( ) ? zeroeq::DEFAULT_SESSION : session ) );
 
-    _subscriber = new zeroeq::Subscriber(
-      session.empty( ) ? zeroeq::DEFAULT_SESSION : session );
+    _subscriber.reset( new zeroeq::Subscriber(
+      session.empty( ) ? zeroeq::DEFAULT_SESSION : session ) );
 
     _subscriber->subscribe(
       zeroeq::gmrv::SyncGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-        (zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
+        static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
+        const size_t size )
       {
         if ( isListen( ) )
         {
           if ( _receivedSyncGroupCallback )
           {
             _receivedSyncGroupCallback(
-                zeroeq::gmrv::SyncGroup::create( data, size));
+                zeroeq::gmrv::SyncGroup::create( data, size) );
           }
         }
-      });
+      }));
     _subscriber->subscribe(
       zeroeq::gmrv::ChangeColorGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
+        static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
+        const size_t size )
       {
         if ( isListen( ) )
         {
           if ( _receivedChangeColorUpdateCallback )
           {
             _receivedChangeColorUpdateCallback(
-                zeroeq::gmrv::ChangeColorGroup::create( data, size));
+                zeroeq::gmrv::ChangeColorGroup::create( data, size) );
           }
         }
-      });
+      }));
     _subscriber->subscribe(
       zeroeq::gmrv::DestroyGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
+        static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
+        const size_t size )
       {
         if ( isListen( ) )
         {
           if ( _receivedDestroyGroupCallback )
           {
             _receivedDestroyGroupCallback(
-                zeroeq::gmrv::DestroyGroup::create( data, size));
+                zeroeq::gmrv::DestroyGroup::create( data, size) );
           }
         }
-      });
+      }));
     _subscriber->subscribe(
       zeroeq::gmrv::ChangeNameGroup::ZEROBUF_TYPE_IDENTIFIER( ),
-		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
+        static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
+        const size_t size )
       {
         if ( isListen( ) )
         {
           if ( _receivedChangeNameGroupUpdateCallback )
           {
             _receivedChangeNameGroupUpdateCallback(
-                zeroeq::gmrv::ChangeNameGroup::create( data, size));
+                zeroeq::gmrv::ChangeNameGroup::create( data, size) );
           }
         }
-      });
+      }));
     _subscriber->subscribe(
       zeroeq::gmrv::SyncNeeded::ZEROBUF_TYPE_IDENTIFIER( ),
-		(zeroeq::EventPayloadFunc)[&]( const void*, const size_t )
+        static_cast<zeroeq::EventPayloadFunc>( [&]( const void*, const size_t )
       {
         if ( isListen( ) )
         {
@@ -130,38 +133,42 @@ namespace manco
             _receivedSyncNeededCallback( );
           }
         }
-      });
+      }));
     _subscriber->subscribe(
       zeroeq::gmrv::SyncXml::ZEROBUF_TYPE_IDENTIFIER( ),
-		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
+        static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
+        const size_t size )
       {
         if ( isListen( ) )
         {
           if ( _receivedSyncXmlCallback )
           {
             _receivedSyncXmlCallback(
-                zeroeq::gmrv::SyncXml::create( data, size));
+                zeroeq::gmrv::SyncXml::create( data, size) );
           }
         }
-      });
+      }));
     _subscriber->subscribe(
       zeroeq::gmrv::SyncTransferFunc::ZEROBUF_TYPE_IDENTIFIER( ),
-		(zeroeq::EventPayloadFunc)[&]( const void* data, const size_t size )
+        static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
+        const size_t size )
       {
         if ( isListen( ) )
         {
           if ( _receivedSyncTransferFuncCallback )
           {
             _receivedSyncTransferFuncCallback(
-                zeroeq::gmrv::SyncTransferFunc::create( data, size));
+                zeroeq::gmrv::SyncTransferFunc::create( data, size) );
           }
         }
-      });
+      }));
 
-    th = std::thread([&](){
+    th = std::thread( [&]( )
+    {
       while( _runThread ) 
       {
         //std::cout << "receiveEvents" << std::endl;
+        std::this_thread::sleep_for( std::chrono::milliseconds( 1 ) );
         ZeqManager::subscriber( )->receive( 0 );
       }
     });
@@ -169,20 +176,23 @@ namespace manco
     _isInit = true;
   }
 
-  void ZeqManager::publishChangeColor( const std::string& key, const unsigned int& red, 
-    const unsigned int& green, const unsigned int& blue )
+  void ZeqManager::publishChangeColor( const std::string& key,
+    const unsigned int& red, const unsigned int& green,
+    const unsigned int& blue )
   {
     if( _publisher && isListen( ) )
     {
-      _publisher->publish( zeroeq::gmrv::ChangeColorGroup( key, { red, green, blue } ));
+      _publisher->publish( zeroeq::gmrv::ChangeColorGroup( key,
+        { red, green, blue } ) );
     }
   }
 
-  void ZeqManager::publishChangeName( const std::string& key, const std::string& name )
+  void ZeqManager::publishChangeName( const std::string& key,
+    const std::string& name )
   {
     if( _publisher && isListen( ) )
     {
-      _publisher->publish( zeroeq::gmrv::ChangeNameGroup( key, name ));
+      _publisher->publish( zeroeq::gmrv::ChangeNameGroup( key, name ) );
     }
   }
 
@@ -194,16 +204,17 @@ namespace manco
     }
   }
 
-  void ZeqManager::publishSyncGroup( const std::string& key, const std::string& name, 
-    const ApplicationType& owner, const std::vector<std::string>& ids, 
-    const unsigned int& red, const unsigned int& green, const unsigned int& blue )
+  void ZeqManager::publishSyncGroup( const std::string& key,
+    const std::string& name, const ApplicationType& owner,
+    const std::vector<std::string>& ids, const unsigned int& red,
+    const unsigned int& green, const unsigned int& blue )
   {
     if ( _publisher && isListen( ) )
     {
       std::vector<unsigned int> color = { red, green, blue };
 
       std::vector<std::string> _ids = ids;
-      ZeqManager::removeEmptyStrings(_ids);
+      ZeqManager::removeEmptyStrings( _ids );
 
       if ( !_ids.empty( ) )
       {    
@@ -242,7 +253,8 @@ namespace manco
     }
   }
 
-  void ZeqManager::publishSyncTransferFunc( const std::map<std::string, float>& scores, const std::vector<zeroeq::gmrv::Color>& colors )
+  void ZeqManager::publishSyncTransferFunc( const std::map<std::string,
+    float>& scores, const std::vector<zeroeq::gmrv::Color>& colors )
   {
     if ( _publisher && isListen( ) )
     {
@@ -250,7 +262,7 @@ namespace manco
       {    
         std::vector< float > scoreValue;
         std::string idsValue;
-        int scoresSize = ( int )scores.size( );
+        int scoresSize = static_cast<int>( scores.size( ) );
 
         for ( const auto& score : scores )
         {
@@ -261,42 +273,50 @@ namespace manco
             idsValue += DELIMITER;
           }   
         }        
-        _publisher->publish( zeroeq::gmrv::SyncTransferFunc( colors, scoreValue, idsValue ) );
+        _publisher->publish( zeroeq::gmrv::SyncTransferFunc( colors, scoreValue,
+          idsValue ) );
       }
     }
   }
 
-  void ZeqManager::setReceivedSyncGroupCallback( const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb)
+  void ZeqManager::setReceivedSyncGroupCallback( const std::function<void(
+    zeroeq::gmrv::ConstSyncGroupPtr )>& cb )
   {
     _receivedSyncGroupCallback = cb;
   }
 
-  void ZeqManager::setReceivedChangeColorUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb)
+  void ZeqManager::setReceivedChangeColorUpdateCallback(
+    const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb )
   {
     _receivedChangeColorUpdateCallback = cb;
   }
 
-  void ZeqManager::setReceivedDestroyGroupCallback( const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb)
+  void ZeqManager::setReceivedDestroyGroupCallback(
+    const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb )
   {
     _receivedDestroyGroupCallback = cb;
   }
 
-  void ZeqManager::setReceivedChangeNameGroupUpdateCallback( const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb)
+  void ZeqManager::setReceivedChangeNameGroupUpdateCallback(
+    const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb )
   {
     _receivedChangeNameGroupUpdateCallback = cb;
   }
 
-  void ZeqManager::setReceivedSyncNeededCallback( const std::function<void( void )>& cb )
+  void ZeqManager::setReceivedSyncNeededCallback(
+    const std::function<void( void )>& cb )
   {
     _receivedSyncNeededCallback = cb;
   }
 
-  void ZeqManager::setReceivedSyncXmlCallback( const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb)
+  void ZeqManager::setReceivedSyncXmlCallback(
+    const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb )
   {
     _receivedSyncXmlCallback = cb;
   }
 
-  void ZeqManager::setReceivedSyncTransferFuncCallback( const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb)
+  void ZeqManager::setReceivedSyncTransferFuncCallback(
+    const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb )
   {
     _receivedSyncTransferFuncCallback = cb;
   }
@@ -304,7 +324,7 @@ namespace manco
   std::string ZeqManager::getOwner( ApplicationType cad )
   {
     std::string result;
-    switch(cad)
+    switch( cad )
     {
       case APICOLAT:
       {
@@ -331,16 +351,18 @@ namespace manco
       + ZeqManager::getOwner( owner );
   }
   
-  void ZeqManager::removeEmptyStrings(std::vector<std::string>& strings)
+  void ZeqManager::removeEmptyStrings( std::vector<std::string>& strings )
   {
-    std::vector<std::string>::iterator it = std::remove_if(strings.begin(), strings.end(),mem_fun_ref(&std::string::empty));
-    strings.erase(it, strings.end());
+    std::vector<std::string>::iterator it = std::remove_if( strings.begin( ),
+      strings.end( ), mem_fun_ref( &std::string::empty ) );
+    strings.erase( it, strings.end( ) );
   }  
 
-  std::vector<std::string> ZeqManager::split( const std::string& str, const std::string& delimiter )
+  std::vector<std::string> ZeqManager::split( const std::string& str,
+    const std::string& delimiter )
   {
     std::string s = str;
-    std::vector< std::string > v;
+    std::vector<std::string> v;
     size_t pos = 0;
     std::string token;
     while ( ( pos = s.find( delimiter ) ) != std::string::npos )

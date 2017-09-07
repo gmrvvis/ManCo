@@ -11,14 +11,14 @@ int randomMessage( )
 {
   static int min = 0;
   static int max = 3;
-  return min + (rand() % (int)(max - min + 1));
+  return min + ( rand( ) % static_cast<int>( max - min + 1 ) );
 }
 
 int randomColorChannel( )
 {
   static int min = 0;
   static int max = 255;
-  return min + (rand() % (int)(max - min + 1));
+  return min + ( rand( ) % static_cast<int>( max - min + 1 ) );
 }
 
 std::vector<std::string> randomNumbers( const int& n )
@@ -27,10 +27,11 @@ std::vector<std::string> randomNumbers( const int& n )
   static int min = 0;
   static int max = 1000;
 
-  for (int i = 0; i < n; ++i)
+  for ( int i = 0; i < n; ++i )
   {
-    std::string number = std::to_string(min + ( rand() % ( int )( max - min + 1 ) ));
-    numbers.push_back(number);
+    std::string number = std::to_string( min + ( rand( ) %
+      static_cast<int>( max - min + 1 ) ) );
+    numbers.push_back( number );
   }
   return numbers;
 }
@@ -38,7 +39,7 @@ std::vector<std::string> randomNumbers( const int& n )
 std::vector<std::string> customRandom( )
 {
   std::vector<std::string> numbers;
-  for (int i = 0; i < randomColorChannel( ); ++i)
+  for ( int i = 0; i < randomColorChannel( ); ++i )
   {
     int r = randomMessage( ) + 1;
 
@@ -63,8 +64,8 @@ std::vector<std::string> customRandom( )
     {
       max = 990;
     }
-    r = min + ( rand() % ( int )( max - min + 1 ) );
-    std::string number = std::to_string(r);
+    r = min + ( rand() % static_cast<int>( max - min + 1 ) );
+    std::string number = std::to_string( r );
     if ( r > 10 && r < 100 )
     {
       number = std::string( "0" ) + number;
@@ -73,7 +74,7 @@ std::vector<std::string> customRandom( )
     {
       number = std::string( "00" ) + number;
     }
-    numbers.push_back(name + number);
+    numbers.push_back( name + number );
   }
   return numbers; // 100-200
 }
@@ -88,40 +89,42 @@ int main( int argc, char** argv )
     return -1;
   }
 
-  manco::ZeqManager::instance().init( argv[ 1 ] );
+  manco::ZeqManager::instance( ).init( argv[ 1 ] );
 
-  std::this_thread::sleep_for( std::chrono::milliseconds(2500) );
+  std::this_thread::sleep_for( std::chrono::milliseconds( 2500 ) );
 
   //Example of Sync xml event
   std::cout << "Sending sync xml event" << std::endl;
-  manco::ZeqManager::instance().publishSyncXml( std::string( "xml" ) );
+  manco::ZeqManager::instance( ).publishSyncXml( std::string( "xml" ) );
 
   //Example of Sync transfer function event
   std::cout << "Sending sync transfer func event" << std::endl;
-//std::vector<zeroeq::gmrv::Color> colors;
+  //std::vector<zeroeq::gmrv::Color> colors;
 
   std::map<std::string, float> scores;
   scores["B-123213"] = 0.343f;
   scores["B-456546"] = 0.6667f;
   scores["B-345564"] = 0.966f;
-  //colors.push_back( new zeroeq::gmrv::Color(2, 3, 4) );
-  manco::ZeqManager::instance().publishSyncTransferFunc( scores, { 
+  //colors.push_back( new zeroeq::gmrv::Color( 2, 3, 4 ) );
+  manco::ZeqManager::instance( ).publishSyncTransferFunc( scores, {
     {1, 2, 3}, {254, 4, 0}, {124, 50, 27}, {231, 0, 66}   
-  });
+  } );
 
   std::cout << "Sending sync group event" << std::endl;
   manco::ZeqManager::instance().publishSyncGroup( std::string( "group" ),
     std::string( "randomName" ), manco::ApplicationType::CLINT,
-    customRandom( ), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
+    customRandom( ), randomColorChannel( ), randomColorChannel( ),
+      randomColorChannel( ) );
 
-  while(true)
+  while( true )
   {
-    std::this_thread::sleep_for(std::chrono::milliseconds(500));
-    switch(randomMessage( ))
+    std::this_thread::sleep_for( std::chrono::milliseconds( 500 ) );
+    switch( randomMessage( ) )
     {
       case 0:
         std::cout << "Sending destroy event" << std::endl;
-        manco::ZeqManager::instance().publishDestroyGroup( std::string( "group" ) );
+        manco::ZeqManager::instance().publishDestroyGroup(
+          std::string( "group" ) );
         break;
       case 1:
         std::cout << "Sending change name event" << std::endl;
@@ -129,16 +132,19 @@ int main( int argc, char** argv )
           std::string( "randomName" ) );
         break;
       case 2:
-        std::string gName = std::to_string( (int)time(NULL) );
+        std::string gName = std::to_string( static_cast<int>( time( NULL ) ) );
         std::cout << "Sending sync group event" << std::endl;
-        manco::ZeqManager::instance().publishSyncGroup( manco::ZeqManager::getKeyOwner( gName, manco::ApplicationType::CLINT ),
-          gName, manco::ApplicationType::SPINERET,
-          customRandom( ), randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
+        manco::ZeqManager::instance().publishSyncGroup(
+          manco::ZeqManager::getKeyOwner( gName,
+          manco::ApplicationType::CLINT ), gName,
+          manco::ApplicationType::SPINERET, customRandom( ),
+          randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
         break;
       /*case 3:
         std::cout << "Sending sync transfer func event" << std::endl;
         std::vector<zeroeq::gmrv::Color> colors;
-        colors.push_back( (float)randomColorChannel( ), (float)randomColorChannel( ), (float)randomColorChannel( ) );
+        colors.push_back( ( float )randomColorChannel( ),
+          ( float )randomColorChannel( ), ( float )randomColorChannel( ) );
         manco::ZeqManager::instance().publishSyncTransferFunc( { 
           {1, 2, 3}, {254, 4, 0}, {124, 50, 27}, {231, 0, 66}   
         } );      
