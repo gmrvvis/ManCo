@@ -27,6 +27,6 @@ OSX-subproject:
   script:
   - bash .gitlab-ci.sh
   tags:
-  - osx
+  - osx-sierra
   except:
   - tags
