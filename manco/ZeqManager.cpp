@@ -49,7 +49,7 @@ namespace manco
 
   zeroeq::Subscriber* ZeqManager::subscriber( void )
   {
-    return _subscriber.get();
+    return _subscriber;
   }
 
   void ZeqManager::init( const std::string& session )
@@ -60,11 +60,11 @@ namespace manco
       return;
     }
 
-    _publisher.reset( new zeroeq::Publisher(
-      session.empty( ) ? zeroeq::DEFAULT_SESSION : session ) );
+    _publisher = new zeroeq::Publisher(
+      session.empty() ? zeroeq::DEFAULT_SESSION : session);
 
-    _subscriber.reset( new zeroeq::Subscriber(
-      session.empty( ) ? zeroeq::DEFAULT_SESSION : session ) );
+    _subscriber = new zeroeq::Subscriber(
+      session.empty( ) ? zeroeq::DEFAULT_SESSION : session );
 
     _subscriber->subscribe(
       zeroeq::gmrv::SyncGroup::ZEROBUF_TYPE_IDENTIFIER( ),

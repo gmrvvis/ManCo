@@ -38,6 +38,8 @@ namespace manco
 
     MANCO_API void init( const std::string& session );
 
+    MANCO_API void destroy();
+
     MANCO_API zeroeq::Subscriber* subscriber( void );
 
     MANCO_API void publishChangeColor( const std::string& key,
@@ -103,8 +105,8 @@ namespace manco
     bool _isInit;
     bool _listen;
     bool _runThread;
-    std::unique_ptr<zeroeq::Subscriber> _subscriber;
-    std::unique_ptr<zeroeq::Publisher> _publisher;
+    zeroeq::Subscriber* _subscriber;
+    zeroeq::Publisher* _publisher;
     std::thread th;
 
   private:
