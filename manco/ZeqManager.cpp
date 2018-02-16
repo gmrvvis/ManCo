@@ -205,7 +205,7 @@ namespace manco
   }
 
   void ZeqManager::publishSyncGroup( const std::string& key,
-    const std::string& name, const ApplicationType& owner,
+    const std::string& name, const std::string& owner,
     const std::vector<std::string>& ids, const unsigned int& red,
     const unsigned int& green, const unsigned int& blue )
   {
@@ -231,8 +231,7 @@ namespace manco
         }
 
         _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, 
-          ZeqManager::getOwner( owner ), 
-          s, color ) );
+          owner, s, color ) );
       }
     }
   }
@@ -321,34 +320,33 @@ namespace manco
     _receivedSyncTransferFuncCallback = cb;
   }
 
-  std::string ZeqManager::getOwner( ApplicationType cad )
+  std::string ZeqManager::getOwner( const ApplicationType& applicationType, const int& applicationInstance )
   {
     std::string result;
-    switch( cad )
+    switch( applicationType )
     {
       case APICOLAT:
       {
-        result = std::string( "APICOLAT" );
+        result = std::string( "APICOLAT" ) + std::to_string( applicationInstance );
         break;
       }
-      case SPINERET:
+      case PYRAMIDAL:
       {
-        result = std::string( "SPINERET" );
+        result = std::string( "SPINERET" ) + std::to_string( applicationInstance );
         break;
       }
       case CLINT:
       {
-        result = std::string( "CLINT" );
+        result = std::string( "CLINT" ) + std::to_string( applicationInstance );
         break;
       }
     }
     return result;
   }
   std::string ZeqManager::getKeyOwner( const std::string& name,
-      const ApplicationType& owner )
+      const std::string& owner )
   {
-    return name + std::string( KEY_DELIMITER )
-      + ZeqManager::getOwner( owner );
+    return name + std::string( KEY_DELIMITER ) + owner;
   }
   
   void ZeqManager::removeEmptyStrings( std::vector<std::string>& strings )

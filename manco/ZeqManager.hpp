@@ -26,7 +26,7 @@ namespace manco
   enum ApplicationType
   {
     APICOLAT,
-    SPINERET,
+    PYRAMIDAL,
     CLINT
   };
 
@@ -52,7 +52,7 @@ namespace manco
     MANCO_API void publishDestroyGroup( const std::string& key );
 
     MANCO_API void publishSyncGroup( const std::string& key,
-      const std::string& name, const ApplicationType& owner,
+      const std::string& name, const std::string& owner,
       const std::vector<std::string>& ids, const unsigned int& red,
       const unsigned int& green, const unsigned int& blue );
 
@@ -84,10 +84,11 @@ namespace manco
     MANCO_API void setReceivedSyncTransferFuncCallback(
       const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb );
 
-    MANCO_API static std::string getOwner( ApplicationType cad );
+    MANCO_API static std::string getOwner( const ApplicationType& applicationType,
+      const int& applicationInstance );
 
     MANCO_API static std::string getKeyOwner( const std::string& name,
-      const ApplicationType& owner );
+      const std::string& owner );
 
     MANCO_API bool isListen( void );
 
