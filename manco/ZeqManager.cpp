@@ -332,7 +332,7 @@ namespace manco
       }
       case PYRAMIDAL:
       {
-        result = std::string( "SPINERET" ) + std::to_string( applicationInstance );
+        result = std::string( "PYRAMIDAL" ) + std::to_string( applicationInstance );
         break;
       }
       case CLINT:
