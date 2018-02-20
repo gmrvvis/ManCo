@@ -320,24 +320,24 @@ namespace manco
     _receivedSyncTransferFuncCallback = cb;
   }
 
-  std::string ZeqManager::getOwner( const ApplicationType& applicationType, const int& applicationInstance )
+  std::string ZeqManager::getOwner( const ApplicationType& applicationType, const std::string& applicationInstance )
   {
     std::string result;
     switch( applicationType )
     {
       case APICOLAT:
       {
-        result = std::string( "APICOLAT" ) + std::to_string( applicationInstance );
+        result = std::string( "APICOLAT" ) + applicationInstance;
         break;
       }
       case PYRAMIDAL:
       {
-        result = std::string( "PYRAMIDAL" ) + std::to_string( applicationInstance );
+        result = std::string( "PYRAMIDAL" ) + applicationInstance;
         break;
       }
       case CLINT:
       {
-        result = std::string( "CLINT" ) + std::to_string( applicationInstance );
+        result = std::string( "CLINT" ) + applicationInstance;
         break;
       }
     }

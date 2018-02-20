@@ -81,11 +81,11 @@ std::vector<std::string> customRandom( )
 
 int main( int argc, char** argv )
 {
-  int clintInstanceId = 0;
+  std::string clintInstanceId = ""; //optional
   std::string clintOwner = manco::ZeqManager::getOwner( 
     manco::ApplicationType::CLINT, clintInstanceId );
 
-  int pyramidalInstanceId = 0;
+  std::string pyramidalInstanceId = ""; //optional
   std::string pyramidalOwner = manco::ZeqManager::getOwner( 
     manco::ApplicationType::PYRAMIDAL, pyramidalInstanceId );
 

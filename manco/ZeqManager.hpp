@@ -85,7 +85,7 @@ namespace manco
       const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb );
 
     MANCO_API static std::string getOwner( const ApplicationType& applicationType,
-      const int& applicationInstance );
+      const std::string& applicationInstance );
 
     MANCO_API static std::string getKeyOwner( const std::string& name,
       const std::string& owner );
