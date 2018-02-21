@@ -325,9 +325,9 @@ namespace manco
     std::string result;
     switch( applicationType )
     {
-      case APICOLAT:
+      case DCEXPLORER:
       {
-        result = std::string( "APICOLAT" ) + applicationInstance;
+        result = std::string( "DCEXPLORER" ) + applicationInstance;
         break;
       }
       case PYRAMIDAL:

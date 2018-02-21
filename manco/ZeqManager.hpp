@@ -25,7 +25,7 @@ namespace manco
 {
   enum ApplicationType
   {
-    APICOLAT,
+    DCEXPLORER,
     PYRAMIDAL,
     CLINT
   };
