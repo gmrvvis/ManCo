@@ -1,3 +1,3 @@
 # -*- mode: cmake -*-
 git_subproject(gmrvlex git@gitlab.gmrv.es:nsviz/gmrvlex.git csb1)
-git_subproject(Lexis https://github.com/HBPVIS/Lexis.git afa2a02)
+git_subproject(Lexis https://github.com/HBPVIS/Lexis.git 321cb06)

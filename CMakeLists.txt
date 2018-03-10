@@ -68,7 +68,10 @@ if( MSVC )
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
   
   # Set manco as startup project on Visual Studio, CMake v3.6
-  #set_property(DIRECTORY PROPERTY VS_STARTUP_PROJECT "manco")
+  if( CMAKE_VERSION VERSION_GREATER 3.6 )
+    set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT manco )
+  endif( )
+
   
   # Excluded because they fail on compilation on win32 and CI
   set(EXCLUDED_FROM_BUILD
