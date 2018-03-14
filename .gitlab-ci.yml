@@ -1,5 +1,24 @@
 stages:
   - build
+
+Ubuntu-Subproject:
+ stage: build
+ script:
+  - export CMAKE_EXTRA_ARGS="-DCLONE_SUBPROJECTS=ON"
+  - bash .gitlab-ci.sh
+ tags:
+  - ubuntu
+
+OSX-subproject:
+  stage: build
+  script:
+  - export CMAKE_EXTRA_ARGS="-DCLONE_SUBPROJECTS=ON"
+  - bash .gitlab-ci.sh
+  tags:
+  - osx-sierra
+  except:
+  - tags
+
 Win7-VS14-x64-subproject:
   stage: build
   script:
@@ -7,26 +26,11 @@ Win7-VS14-x64-subproject:
   - call %ENVFILESDIR%\zeromq-4.2.1-vs14-x64.bat
   - set PATH=%PATH%;"c:\Program Files\Git\bin"
   - set BUILD_GENERATOR=Visual Studio 14 Win64
-  - set CMAKE_EXTRA_ARGS="-DWITH_NO_CONSOLE=ON"
+  - set CMAKE_EXTRA_ARGS=-DCLONE_SUBPROJECTS=ON
   - pip install pyparsing
   - bash --login .gitlab-ci.sh
   tags:
   - win7
   except:
   - tags
-Ubuntu-subproject:
-  stage: build
-  script:
-  - bash .gitlab-ci.sh
-  tags:
-  - ubuntu
-  except:
-  - tags
-OSX-subproject:
-  stage: build
-  script:
-  - bash .gitlab-ci.sh
-  tags:
-  - osx-sierra
-  except:
-  - tags
+
