@@ -8,8 +8,8 @@
  Do not distribute without further notice.
 */
 
-#ifndef __CSB1_ZEQ_MANAGER__
-#define __CSB1_ZEQ_MANAGER__
+#ifndef MANCO_ZEQ_MANAGER_HPP
+#define MANCO_ZEQ_MANAGER_HPP
 
 #include <zeroeq/zeroeq.h>
 #include <gmrvlex/gmrvlex.h>
@@ -18,18 +18,11 @@
 
 #include <manco/api.h>
 
-#define DELIMITER "|&|"
-#define KEY_DELIMITER "#!#"
+#include "Definitions.hpp"
+#include "Enums.hpp"
 
 namespace manco
 {
-  enum ApplicationType
-  {
-    DCEXPLORER,
-    PYRAMIDAL,
-    CLINT
-  };
-
   class ZeqManager
   {
   public:

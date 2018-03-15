@@ -5,6 +5,8 @@ set( MANCO_PUBLIC_HEADERS
 )
 
 set( MANCO_HEADERS
+  Definitions.hpp
+  Enums.hpp
 )
 
 set( MANCO_SOURCES
@@ -16,5 +18,9 @@ set( MANCO_LINK_LIBRARIES
   Lexis
   gmrvlex
 )
+
+if (MSVC)
+  add_definitions("/W4")
+endif()
 
 common_library( manco )

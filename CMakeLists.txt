@@ -6,7 +6,7 @@
 #   www.gmrv.es
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-cmake_minimum_required( VERSION 3.1 FATAL_ERROR )
+cmake_minimum_required( VERSION 3.1 )
 project( manco VERSION 1.0.0 )
 set( PROJECT_VERSION_MAJOR "1" )
 set( PROJECT_VERSION_MINOR "0" )
@@ -64,9 +64,7 @@ add_subdirectory( manco )
 add_subdirectory( examples )
 
 if( MSVC )
-  # Allow warnings
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w")
-  
+
   # Set manco as startup project on Visual Studio, CMake v3.6
   if( CMAKE_VERSION VERSION_GREATER 3.6 )
     set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT manco )
@@ -89,7 +87,8 @@ if( MSVC )
   set_target_properties(${EXCLUDED_FROM_BUILD} PROPERTIES EXCLUDE_FROM_ALL "TRUE")
 endif( )
 
-set( DOXYGEN_MAINPAGE_MD ${PROJECT_SOURCE_DIR}/README.md )
-set( DOXYGEN_EXTRA_INPUT ${DOXYGEN_MAINPAGE_MD} )
-include( CPackConfig )
+set( DOXYGEN_MAINPAGE_MD README.md )
+set( DOXYGEN_EXTRA_INPUT ${PROJECT_SOURCE_DIR}/README.md )
 include( DoxygenRule )
+
+include( CPackConfig )
