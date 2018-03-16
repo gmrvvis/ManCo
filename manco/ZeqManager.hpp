@@ -27,72 +27,94 @@ namespace manco
   {
   public:
 
-    MANCO_API static ZeqManager& instance( );
+    MANCO_API 
+      static ZeqManager& instance( );
 
-    MANCO_API void init( const std::string& session );
+    MANCO_API 
+      void init( const std::string& session );
 
-    MANCO_API void destroy();
+    MANCO_API 
+      zeroeq::Subscriber* subscriber( void );
 
-    MANCO_API zeroeq::Subscriber* subscriber( void );
-
-    MANCO_API void publishChangeColor( const std::string& key,
+    MANCO_API 
+      void publishChangeColor( const std::string& key,
       const unsigned int& red, const unsigned int& green,
       const unsigned int& blue );
 
-    MANCO_API void publishChangeName( const std::string& key,
+    MANCO_API 
+      void publishChangeName( const std::string& key,
       const std::string& name );
 
-    MANCO_API void publishDestroyGroup( const std::string& key );
+    MANCO_API 
+      void publishDestroyGroup( const std::string& key );
 
-    MANCO_API void publishSyncGroup( const std::string& key,
+    MANCO_API 
+      void publishSyncGroup( const std::string& key,
       const std::string& name, const std::string& owner,
       const std::vector<std::string>& ids, const unsigned int& red,
       const unsigned int& green, const unsigned int& blue );
 
-    MANCO_API void publishSyncNeeded( void );
+    MANCO_API 
+      void publishSyncNeeded( void );
 
-    MANCO_API void publishSyncXml( const std::string& filename );
+    MANCO_API 
+      void publishSyncXml( const std::string& filename );
 
-    MANCO_API void publishSyncTransferFunc( const std::map<std::string,
+    MANCO_API 
+      void publishSyncTransferFunc( const std::map<std::string,
       float>& scores, const std::vector<zeroeq::gmrv::Color>& colors );
 
-    MANCO_API void setReceivedSyncGroupCallback( 
+    MANCO_API 
+      void setReceivedSyncGroupCallback( 
       const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb );
     
-    MANCO_API void setReceivedChangeColorUpdateCallback( 
+    MANCO_API 
+      void setReceivedChangeColorUpdateCallback( 
       const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb );
     
-    MANCO_API void setReceivedDestroyGroupCallback( 
+    MANCO_API 
+      void setReceivedDestroyGroupCallback( 
       const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb );
 
-    MANCO_API void setReceivedChangeNameGroupUpdateCallback( 
+    MANCO_API 
+      void setReceivedChangeNameGroupUpdateCallback( 
       const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb );
 
-    MANCO_API void setReceivedSyncNeededCallback( 
+    MANCO_API 
+      void setReceivedSyncNeededCallback( 
       const std::function<void( void )>& cb );
 
-    MANCO_API void setReceivedSyncXmlCallback( 
+    MANCO_API 
+      void setReceivedSyncXmlCallback( 
       const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb );
 
-    MANCO_API void setReceivedSyncTransferFuncCallback(
+    MANCO_API 
+      void setReceivedSyncTransferFuncCallback(
       const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb );
 
-    MANCO_API static std::string getOwner( const ApplicationType& applicationType,
+    MANCO_API 
+      static std::string getOwner( const ApplicationType& applicationType,
       const std::string& applicationInstance );
 
-    MANCO_API static std::string getKeyOwner( const std::string& name,
+    MANCO_API 
+      static std::string getKeyOwner( const std::string& name,
       const std::string& owner );
 
-    MANCO_API bool isListen( void );
+    MANCO_API 
+      bool isListen( void );
 
-    MANCO_API void enableListen( void );
+    MANCO_API 
+      void enableListen( void );
 
-    MANCO_API void disableListen( void );
+    MANCO_API 
+      void disableListen( void );
     
-    MANCO_API static void removeEmptyStrings(
+    MANCO_API 
+      static void removeEmptyStrings(
       std::vector<std::string>& strings );
 
-    MANCO_API static std::vector<std::string> split( const std::string& str,
+    MANCO_API 
+      static std::vector<std::string> split( const std::string& str,
       const std::string& delimiter );
 
   protected:
@@ -126,4 +148,4 @@ namespace manco
   };
 }
 
-#endif /* __CSB1_ZEQ_MANAGER__ */
+#endif /* MANCO_ZEQ_MANAGER */
