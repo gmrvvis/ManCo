@@ -8,7 +8,7 @@
  Do not distribute without further notice.
 */
 
-#include "ZeqManager.hpp"
+#include "ZeqManager.h"
 #include <algorithm>
 #include <iterator>
 
@@ -318,13 +318,6 @@ namespace manco
     const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb )
   {
     _receivedSyncTransferFuncCallback = cb;
-  }
-
-  std::string ZeqManager::getOwner( const ApplicationType& applicationType,
-    const std::string& applicationInstance )
-  {
-    std::string result = toString( applicationType ) + applicationInstance;
-    return result;
   }
 
   std::string ZeqManager::getKeyOwner( const std::string& name,

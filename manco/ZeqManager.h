@@ -8,8 +8,8 @@
  Do not distribute without further notice.
 */
 
-#ifndef MANCO_ZEQ_MANAGER_HPP
-#define MANCO_ZEQ_MANAGER_HPP
+#ifndef MANCO_ZEQ_MANAGER_H
+#define MANCO_ZEQ_MANAGER_H
 
 #include <zeroeq/zeroeq.h>
 #include <gmrvlex/gmrvlex.h>
@@ -19,7 +19,6 @@
 #include <manco/api.h>
 
 #include "Definitions.hpp"
-#include "Enums.hpp"
 
 namespace manco
 {
@@ -91,10 +90,6 @@ namespace manco
     MANCO_API 
       void setReceivedSyncTransferFuncCallback(
       const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb );
-
-    MANCO_API 
-      static std::string getOwner( const ApplicationType& applicationType,
-      const std::string& applicationInstance );
 
     MANCO_API 
       static std::string getKeyOwner( const std::string& name,

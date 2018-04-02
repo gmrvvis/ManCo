@@ -81,13 +81,6 @@ std::vector<std::string> customRandom( )
 
 int main( int argc, char** argv )
 {
-  std::string clintInstanceId = ""; //optional
-  std::string clintOwner = manco::ZeqManager::getOwner( 
-    manco::ApplicationType::CLINT, clintInstanceId );
-
-  std::string pyramidalInstanceId = ""; //optional
-  std::string pyramidalOwner = manco::ZeqManager::getOwner( 
-    manco::ApplicationType::PYRAMIDAL, pyramidalInstanceId );
 
   std::cout << "HELLO PRODUCER" << std::endl;
 
@@ -120,7 +113,7 @@ int main( int argc, char** argv )
 
   std::cout << "Sending sync group event" << std::endl;
   manco::ZeqManager::instance().publishSyncGroup( std::string( "group" ),
-    std::string( "randomName" ), clintOwner, customRandom( ), 
+    std::string( "randomName" ), "CLINT", customRandom( ),
     randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
 
   while( true )
@@ -142,8 +135,8 @@ int main( int argc, char** argv )
         std::string gName = std::to_string( static_cast<int>( time( NULL ) ) );
         std::cout << "Sending sync group event" << std::endl;
         manco::ZeqManager::instance().publishSyncGroup(
-          manco::ZeqManager::getKeyOwner( gName, clintOwner ), gName,
-          pyramidalOwner, customRandom( ),
+          manco::ZeqManager::getKeyOwner( gName, "CLINT" ), gName,
+          "PYRAMIDAL", customRandom( ),
           randomColorChannel( ), randomColorChannel( ), randomColorChannel( ) );
         break;
       /*case 3:

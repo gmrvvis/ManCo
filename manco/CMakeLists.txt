@@ -1,12 +1,11 @@
 source_group(\\ FILES CMakeLists.txt)
 
 set( MANCO_PUBLIC_HEADERS
-  ZeqManager.hpp
+  ZeqManager.h
 )
 
 set( MANCO_HEADERS
   Definitions.hpp
-  Enums.hpp
 )
 
 set( MANCO_SOURCES
