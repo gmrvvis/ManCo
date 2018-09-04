@@ -48,12 +48,10 @@ include( Common )
 # Allow warnings
 #set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w" )
 
-common_find_package( Lexis REQUIRED )
 common_find_package( ZeroEQ REQUIRED )
 common_find_package( gmrvlex REQUIRED )
 
 list( APPEND MANCO_DEPENDENT_LIBRARIES 
-  Lexis 
   ZeroEQ 
   gmrvlex
 )
@@ -73,16 +71,7 @@ if( MSVC )
   
   # Excluded because they fail on compilation on win32 and CI
   set(EXCLUDED_FROM_BUILD
-    "Lexis-test-render-histogram"
-	"Lexis-test-data-progress"
-	"Lexis-test-render-clipPlanes"
-	"Lexis-test-render-imageJPEG"
-	"vmmlib-test-aabb"
-	"vmmlib-test-frustum"
-	"vmmlib-test-matrix"
-	"vmmlib-test-quaternion"
-	"vmmlib-test-vector"
-	"testschema"
+    "testschema"
   )
   set_target_properties(${EXCLUDED_FROM_BUILD} PROPERTIES EXCLUDE_FROM_ALL "TRUE")
 endif( )

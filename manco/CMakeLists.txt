@@ -14,7 +14,6 @@ set( MANCO_SOURCES
 
 set( MANCO_LINK_LIBRARIES
   ZeroEQ
-  Lexis
   gmrvlex
 )
 

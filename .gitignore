@@ -9,6 +9,12 @@ CMake/common
 ci.*
 jambs*
 #*
+build*
 Debug*
 Release*
 RelWithDebInfo*
+Servus/*
+ZeroBuf/*
+ZeroEQ/*
+gmrvlex/*
+CMakeLists.txt.user
