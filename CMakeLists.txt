@@ -1,11 +1,12 @@
 ﻿# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
-#   GMRVLEX
-#   2017 (c) GMRV / Universidad Rey Juan Carlos
+#   ManCo
+#   2017-2019 (c) GMRV / Universidad Rey Juan Carlos
 #   gmrv@gmrv.es
 #   www.gmrv.es
 #
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 cmake_minimum_required( VERSION 3.1 )
 project( manco VERSION 1.0.0 )
 set( PROJECT_VERSION_MAJOR "1" )
@@ -41,6 +42,8 @@ endif( )
 include( GitExternal )
 
 set( MANCO_DESCRIPTION "ManCo (MANager COntainer)" )
+set( MANCO_MAINTAINER "Gonzalo Bayo Martinez <gonzalo.bayo@urjc.es>")
+set( MANCO_LICENSE "LGPLv3" )
 set( COMMON_PROJECT_DOMAIN gmrv.es )
 
 include( Common )
@@ -49,11 +52,11 @@ include( Common )
 #set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w" )
 
 common_find_package( ZeroEQ REQUIRED )
-common_find_package( gmrvlex REQUIRED )
+common_find_package( vishnulex REQUIRED )
 
 list( APPEND MANCO_DEPENDENT_LIBRARIES 
   ZeroEQ 
-  gmrvlex
+  vishnulex
 )
 
 common_find_package_post( )
@@ -69,7 +72,7 @@ if( MSVC )
   endif( )
 
   
-  # Excluded because they fail on compilation on win32 and CI
+  # Excluded because they fail on win32 compilations
   set(EXCLUDED_FROM_BUILD
     "testschema"
   )

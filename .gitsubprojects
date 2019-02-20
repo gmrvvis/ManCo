@@ -1,2 +1,2 @@
 # -*- mode: cmake -*-
-git_subproject(gmrvlex git@gitlab.gmrv.es:nsviz/gmrvlex.git csb1)
+git_subproject(vishnulex git@gitlab.gmrv.es:cbbsp1/vishnulex.git master)

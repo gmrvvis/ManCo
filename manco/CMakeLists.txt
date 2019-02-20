@@ -1,3 +1,12 @@
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+#
+#   ManCo
+#   2017-2019 (c) GMRV / Universidad Rey Juan Carlos
+#   gmrv@gmrv.es
+#   www.gmrv.es
+#
+# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
+
 source_group(\\ FILES CMakeLists.txt)
 
 set( MANCO_PUBLIC_HEADERS
@@ -14,7 +23,7 @@ set( MANCO_SOURCES
 
 set( MANCO_LINK_LIBRARIES
   ZeroEQ
-  gmrvlex
+  vishnulex
 )
 
 if (MSVC)

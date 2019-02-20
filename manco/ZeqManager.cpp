@@ -1,12 +1,25 @@
-/**
- * @file    ZeqManager.cpp
- * @brief
- * @author  Cristian Rodriguez Bernal <ccrisrober@gmail.com>
- * @author  Gonzalo Bayo Martinez <gonzalobayo@gmail.com>
- * @date
- * @remarks Copyright (c) GMRV/URJC. All rights reserved.
- Do not distribute without further notice.
-*/
+/*
+ * Copyright (c) 2017-2019 GMRV/URJC.
+ *
+ * Authors: Cristian Rodriguez Bernal <ccrisrober@gmail.com>
+ *          Gonzalo Bayo Martinez <gonzalo.bayo@urjc.es>
+ *
+ * This file is part of ManCo <https://gitlab.gmrv.es/retrieval/manco>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ */
 
 #include "ZeqManager.h"
 #include <algorithm>
@@ -67,7 +80,7 @@ namespace manco
       session.empty( ) ? zeroeq::DEFAULT_SESSION : session );
 
     _subscriber->subscribe(
-      zeroeq::gmrv::SyncGroup::ZEROBUF_TYPE_IDENTIFIER( ),
+      vishnulex::SyncGroup::ZEROBUF_TYPE_IDENTIFIER( ),
         static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
         const size_t size )
       {
@@ -76,12 +89,12 @@ namespace manco
           if ( _receivedSyncGroupCallback )
           {
             _receivedSyncGroupCallback(
-                zeroeq::gmrv::SyncGroup::create( data, size) );
+                vishnulex::SyncGroup::create( data, size) );
           }
         }
       }));
     _subscriber->subscribe(
-      zeroeq::gmrv::ChangeColorGroup::ZEROBUF_TYPE_IDENTIFIER( ),
+      vishnulex::ChangeColorGroup::ZEROBUF_TYPE_IDENTIFIER( ),
         static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
         const size_t size )
       {
@@ -90,12 +103,12 @@ namespace manco
           if ( _receivedChangeColorUpdateCallback )
           {
             _receivedChangeColorUpdateCallback(
-                zeroeq::gmrv::ChangeColorGroup::create( data, size) );
+                vishnulex::ChangeColorGroup::create( data, size) );
           }
         }
       }));
     _subscriber->subscribe(
-      zeroeq::gmrv::DestroyGroup::ZEROBUF_TYPE_IDENTIFIER( ),
+      vishnulex::DestroyGroup::ZEROBUF_TYPE_IDENTIFIER( ),
         static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
         const size_t size )
       {
@@ -104,12 +117,12 @@ namespace manco
           if ( _receivedDestroyGroupCallback )
           {
             _receivedDestroyGroupCallback(
-                zeroeq::gmrv::DestroyGroup::create( data, size) );
+                vishnulex::DestroyGroup::create( data, size) );
           }
         }
       }));
     _subscriber->subscribe(
-      zeroeq::gmrv::ChangeNameGroup::ZEROBUF_TYPE_IDENTIFIER( ),
+      vishnulex::ChangeNameGroup::ZEROBUF_TYPE_IDENTIFIER( ),
         static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
         const size_t size )
       {
@@ -118,12 +131,12 @@ namespace manco
           if ( _receivedChangeNameGroupUpdateCallback )
           {
             _receivedChangeNameGroupUpdateCallback(
-                zeroeq::gmrv::ChangeNameGroup::create( data, size) );
+                vishnulex::ChangeNameGroup::create( data, size) );
           }
         }
       }));
     _subscriber->subscribe(
-      zeroeq::gmrv::SyncNeeded::ZEROBUF_TYPE_IDENTIFIER( ),
+      vishnulex::SyncNeeded::ZEROBUF_TYPE_IDENTIFIER( ),
         static_cast<zeroeq::EventPayloadFunc>( [&]( const void*, const size_t )
       {
         if ( isListen( ) )
@@ -135,7 +148,7 @@ namespace manco
         }
       }));
     _subscriber->subscribe(
-      zeroeq::gmrv::SyncXml::ZEROBUF_TYPE_IDENTIFIER( ),
+      vishnulex::SyncXml::ZEROBUF_TYPE_IDENTIFIER( ),
         static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
         const size_t size )
       {
@@ -144,12 +157,12 @@ namespace manco
           if ( _receivedSyncXmlCallback )
           {
             _receivedSyncXmlCallback(
-                zeroeq::gmrv::SyncXml::create( data, size) );
+                vishnulex::SyncXml::create( data, size) );
           }
         }
       }));
     _subscriber->subscribe(
-      zeroeq::gmrv::SyncTransferFunc::ZEROBUF_TYPE_IDENTIFIER( ),
+      vishnulex::SyncTransferFunc::ZEROBUF_TYPE_IDENTIFIER( ),
         static_cast<zeroeq::EventPayloadFunc>( [&]( const void* data,
         const size_t size )
       {
@@ -158,7 +171,7 @@ namespace manco
           if ( _receivedSyncTransferFuncCallback )
           {
             _receivedSyncTransferFuncCallback(
-                zeroeq::gmrv::SyncTransferFunc::create( data, size) );
+                vishnulex::SyncTransferFunc::create( data, size) );
           }
         }
       }));
@@ -182,7 +195,7 @@ namespace manco
   {
     if( _publisher && isListen( ) )
     {
-      _publisher->publish( zeroeq::gmrv::ChangeColorGroup( key,
+      _publisher->publish( vishnulex::ChangeColorGroup( key,
         { red, green, blue } ) );
     }
   }
@@ -192,7 +205,7 @@ namespace manco
   {
     if( _publisher && isListen( ) )
     {
-      _publisher->publish( zeroeq::gmrv::ChangeNameGroup( key, name ) );
+      _publisher->publish( vishnulex::ChangeNameGroup( key, name ) );
     }
   }
 
@@ -200,7 +213,7 @@ namespace manco
   {
     if ( _publisher && isListen( ) )
     {
-      _publisher->publish( zeroeq::gmrv::DestroyGroup( key ) );
+      _publisher->publish( vishnulex::DestroyGroup( key ) );
     }
   }
 
@@ -230,7 +243,7 @@ namespace manco
           }
         }
 
-        _publisher->publish( zeroeq::gmrv::SyncGroup( key, name, 
+        _publisher->publish( vishnulex::SyncGroup( key, name, 
           owner, s, color ) );
       }
     }
@@ -240,7 +253,7 @@ namespace manco
   {
     if ( _publisher && isListen( ) )
     {
-      _publisher->publish( zeroeq::gmrv::SyncNeeded( ) );
+      _publisher->publish( vishnulex::SyncNeeded( ) );
     }
   }
 
@@ -248,12 +261,12 @@ namespace manco
   {
     if ( _publisher && isListen( ) )
     {
-      _publisher->publish( zeroeq::gmrv::SyncXml( filename ) );
+      _publisher->publish( vishnulex::SyncXml( filename ) );
     }
   }
 
   void ZeqManager::publishSyncTransferFunc( const std::map<std::string,
-    float>& scores, const std::vector<zeroeq::gmrv::Color>& colors )
+    float>& scores, const std::vector<vishnulex::Color>& colors )
   {
     if ( _publisher && isListen( ) )
     {
@@ -272,32 +285,32 @@ namespace manco
             idsValue += DELIMITER;
           }   
         }        
-        _publisher->publish( zeroeq::gmrv::SyncTransferFunc( colors, scoreValue,
+        _publisher->publish( vishnulex::SyncTransferFunc( colors, scoreValue,
           idsValue ) );
       }
     }
   }
 
   void ZeqManager::setReceivedSyncGroupCallback( const std::function<void(
-    zeroeq::gmrv::ConstSyncGroupPtr )>& cb )
+    vishnulex::ConstSyncGroupPtr )>& cb )
   {
     _receivedSyncGroupCallback = cb;
   }
 
   void ZeqManager::setReceivedChangeColorUpdateCallback(
-    const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb )
+    const std::function<void( vishnulex::ConstChangeColorGroupPtr )>& cb )
   {
     _receivedChangeColorUpdateCallback = cb;
   }
 
   void ZeqManager::setReceivedDestroyGroupCallback(
-    const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb )
+    const std::function<void( vishnulex::ConstDestroyGroupPtr )>& cb )
   {
     _receivedDestroyGroupCallback = cb;
   }
 
   void ZeqManager::setReceivedChangeNameGroupUpdateCallback(
-    const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb )
+    const std::function<void( vishnulex::ConstChangeNameGroupPtr )>& cb )
   {
     _receivedChangeNameGroupUpdateCallback = cb;
   }
@@ -309,13 +322,13 @@ namespace manco
   }
 
   void ZeqManager::setReceivedSyncXmlCallback(
-    const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb )
+    const std::function<void( vishnulex::ConstSyncXmlPtr )>& cb )
   {
     _receivedSyncXmlCallback = cb;
   }
 
   void ZeqManager::setReceivedSyncTransferFuncCallback(
-    const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb )
+    const std::function<void( vishnulex::ConstSyncTransferFuncPtr )>& cb )
   {
     _receivedSyncTransferFuncCallback = cb;
   }

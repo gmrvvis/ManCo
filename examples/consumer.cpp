@@ -1,3 +1,26 @@
+/*
+ * Copyright (c) 2017-2019 GMRV/URJC.
+ *
+ * Authors: Cristian Rodriguez Bernal <ccrisrober@gmail.com>
+ *          Gonzalo Bayo Martinez <gonzalo.bayo@urjc.es>
+ *
+ * This file is part of ManCo <https://gitlab.gmrv.es/retrieval/manco>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ */
+
 #include <manco/manco.h>
 using namespace manco;
 
@@ -11,18 +34,18 @@ using namespace manco;
 #include <chrono>
 #include <thread>
 
-void receivedDestroyGroup( zeroeq::gmrv::ConstDestroyGroupPtr o )
+void receivedDestroyGroup( vishnulex::ConstDestroyGroupPtr o )
 {
   std::cout << "Received DestroyGroup (" << o->getKeyString( ) << ")" <<
     std::endl;
 }
 
-void receivedChangeNameGroup( zeroeq::gmrv::ConstChangeNameGroupPtr )
+void receivedChangeNameGroup( vishnulex::ConstChangeNameGroupPtr )
 {
   std::cout << "Received ChangeNameGroup" << std::endl;
 }
 
-void receivedSyncGroup( zeroeq::gmrv::ConstSyncGroupPtr o )
+void receivedSyncGroup( vishnulex::ConstSyncGroupPtr o )
 {
   std::vector<unsigned int> color = o->getColorVector( );
   std::cout << "Received SyncGroup (" <<
@@ -41,7 +64,7 @@ void receivedSyncGroup( zeroeq::gmrv::ConstSyncGroupPtr o )
   std::cout << ")" << std::endl;
 }
 
-void receivedChangeColor( zeroeq::gmrv::ConstChangeColorGroupPtr o )
+void receivedChangeColor( vishnulex::ConstChangeColorGroupPtr o )
 {
   std::vector<unsigned int> color = o->getColorVector( );
   std::cout << "Received ChangeColor (" << o->getKeyString( ) << ": " <<
@@ -49,13 +72,13 @@ void receivedChangeColor( zeroeq::gmrv::ConstChangeColorGroupPtr o )
     ")" << std::endl;
 }
 
-void receivedSyncXml( zeroeq::gmrv::ConstSyncXmlPtr o )
+void receivedSyncXml( vishnulex::ConstSyncXmlPtr o )
 {
   std::cout << "Received SyncXml (" << o->getFilenameString( ) << ")" <<
     std::endl;
 }
 
-void receivedSyncTransferFunc( zeroeq::gmrv::ConstSyncTransferFuncPtr o )
+void receivedSyncTransferFunc( vishnulex::ConstSyncTransferFuncPtr o )
 {
   std::cout << "Received SyncTransferFunc (" << std::endl;
   for ( const auto& color : o->getColors( ) )

@@ -1,18 +1,31 @@
-/**
- * @file    ZeqManager.hpp
- * @brief
- * @author  Cristian Rodriguez Bernal <ccrisrober@gmail.com>
- * @author  Gonzalo Bayo Martinez <gonzalobayo@gmail.com>
- * @date
- * @remarks Copyright (c) GMRV/URJC. All rights reserved.
- Do not distribute without further notice.
-*/
+/*
+ * Copyright (c) 2017-2019 GMRV/URJC.
+ *
+ * Authors: Cristian Rodriguez Bernal <ccrisrober@gmail.com>
+ *          Gonzalo Bayo Martinez <gonzalo.bayo@urjc.es>
+ *
+ * This file is part of ManCo <https://gitlab.gmrv.es/retrieval/manco>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ */
 
 #ifndef MANCO_ZEQ_MANAGER_H
 #define MANCO_ZEQ_MANAGER_H
 
 #include <zeroeq/zeroeq.h>
-#include <gmrvlex/gmrvlex.h>
+#include <vishnulex/vishnulex.h>
 #include <thread>
 #include <memory>
 
@@ -61,23 +74,23 @@ namespace manco
 
     MANCO_API 
       void publishSyncTransferFunc( const std::map<std::string,
-      float>& scores, const std::vector<zeroeq::gmrv::Color>& colors );
+      float>& scores, const std::vector<vishnulex::Color>& colors );
 
     MANCO_API 
       void setReceivedSyncGroupCallback( 
-      const std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>& cb );
+      const std::function<void( vishnulex::ConstSyncGroupPtr )>& cb );
     
     MANCO_API 
       void setReceivedChangeColorUpdateCallback( 
-      const std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>& cb );
+      const std::function<void( vishnulex::ConstChangeColorGroupPtr )>& cb );
     
     MANCO_API 
       void setReceivedDestroyGroupCallback( 
-      const std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>& cb );
+      const std::function<void( vishnulex::ConstDestroyGroupPtr )>& cb );
 
     MANCO_API 
       void setReceivedChangeNameGroupUpdateCallback( 
-      const std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>& cb );
+      const std::function<void( vishnulex::ConstChangeNameGroupPtr )>& cb );
 
     MANCO_API 
       void setReceivedSyncNeededCallback( 
@@ -85,11 +98,11 @@ namespace manco
 
     MANCO_API 
       void setReceivedSyncXmlCallback( 
-      const std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>& cb );
+      const std::function<void( vishnulex::ConstSyncXmlPtr )>& cb );
 
     MANCO_API 
       void setReceivedSyncTransferFuncCallback(
-      const std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>& cb );
+      const std::function<void( vishnulex::ConstSyncTransferFuncPtr )>& cb );
 
     MANCO_API 
       static std::string getKeyOwner( const std::string& name,
@@ -126,18 +139,18 @@ namespace manco
     ZeqManager( ZeqManager const& ) = delete;
     void operator=( ZeqManager const& ) = delete;
 
-    std::function<void( zeroeq::gmrv::ConstSyncGroupPtr )>
+    std::function<void( vishnulex::ConstSyncGroupPtr )>
       _receivedSyncGroupCallback;
-    std::function<void( zeroeq::gmrv::ConstChangeColorGroupPtr )>
+    std::function<void( vishnulex::ConstChangeColorGroupPtr )>
       _receivedChangeColorUpdateCallback;
-    std::function<void( zeroeq::gmrv::ConstDestroyGroupPtr )>
+    std::function<void( vishnulex::ConstDestroyGroupPtr )>
       _receivedDestroyGroupCallback;
-    std::function<void( zeroeq::gmrv::ConstChangeNameGroupPtr )>
+    std::function<void( vishnulex::ConstChangeNameGroupPtr )>
       _receivedChangeNameGroupUpdateCallback;
     std::function<void( void )> _receivedSyncNeededCallback;
-    std::function<void( zeroeq::gmrv::ConstSyncXmlPtr )>
+    std::function<void( vishnulex::ConstSyncXmlPtr )>
       _receivedSyncXmlCallback;
-    std::function<void( zeroeq::gmrv::ConstSyncTransferFuncPtr )>
+    std::function<void( vishnulex::ConstSyncTransferFuncPtr )>
       _receivedSyncTransferFuncCallback;
 
   };

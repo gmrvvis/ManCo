@@ -1,3 +1,26 @@
+/*
+ * Copyright (c) 2017-2019 GMRV/URJC.
+ *
+ * Authors: Cristian Rodriguez Bernal <ccrisrober@gmail.com>
+ *          Gonzalo Bayo Martinez <gonzalo.bayo@urjc.es>
+ *
+ * This file is part of ManCo <https://gitlab.gmrv.es/retrieval/manco>
+ *
+ * This library is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU Lesser General Public License version 3.0 as published
+ * by the Free Software Foundation.
+ *
+ * This library is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public License for more
+ * details.
+ *
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this library; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ *
+ */
+
 #include <manco/manco.h>
 using namespace manco;
 
@@ -100,13 +123,13 @@ int main( int argc, char** argv )
 
   //Example of Sync transfer function event
   std::cout << "Sending sync transfer func event" << std::endl;
-  //std::vector<zeroeq::gmrv::Color> colors;
+  //std::vector<vishnulex::Color> colors;
 
   std::map<std::string, float> scores;
   scores["B-123213"] = 0.343f;
   scores["B-456546"] = 0.6667f;
   scores["B-345564"] = 0.966f;
-  //colors.push_back( new zeroeq::gmrv::Color( 2, 3, 4 ) );
+  //colors.push_back( new vishnulex::Color( 2, 3, 4 ) );
   manco::ZeqManager::instance( ).publishSyncTransferFunc( scores, {
     {1, 2, 3}, {254, 4, 0}, {124, 50, 27}, {231, 0, 66}   
   } );
@@ -141,7 +164,7 @@ int main( int argc, char** argv )
         break;
       /*case 3:
         std::cout << "Sending sync transfer func event" << std::endl;
-        std::vector<zeroeq::gmrv::Color> colors;
+        std::vector<vishnulex::Color> colors;
         colors.push_back( ( float )randomColorChannel( ),
           ( float )randomColorChannel( ), ( float )randomColorChannel( ) );
         manco::ZeqManager::instance().publishSyncTransferFunc( { 
