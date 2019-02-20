@@ -3,35 +3,25 @@ using namespace manco;
 
 #include <iostream>
 
-
 #include <memory>
 #include <functional>
 #include <iostream>
 #include <algorithm>
 
-std::vector<std::string> split( const std::string& str, const std::string& delimiter )
+#include <chrono>
+#include <thread>
+
+void receivedDestroyGroup( zeroeq::gmrv::ConstDestroyGroupPtr o )
 {
-  std::string s = str;
-  std::vector< std::string > v;
-  size_t pos = 0;
-  std::string token;
-  while ( ( pos = s.find( delimiter ) ) != std::string::npos )
-  {
-    token = s.substr( 0, pos );
-    v.push_back( token );
-    s.erase( 0, pos + delimiter.length( ) );
-  }
-  return v;
+  std::cout << "Received DestroyGroup (" << o->getKeyString( ) << ")" <<
+    std::endl;
 }
 
-void receivedDestroyGroup(zeroeq::gmrv::ConstDestroyGroupPtr o )
+void receivedChangeNameGroup( zeroeq::gmrv::ConstChangeNameGroupPtr )
 {
-  std::cout << "Received DestroyGroup (" << o->getKeyString( ) << ")" << std::endl;
+  std::cout << "Received ChangeNameGroup" << std::endl;
 }
-void receivedChangeNameGroup(zeroeq::gmrv::ConstChangeNameGroupPtr)
-{
-  std::cout << "RECEIVED ChangeNameGroup" << std::endl;
-}
+
 void receivedSyncGroup( zeroeq::gmrv::ConstSyncGroupPtr o )
 {
   std::vector<unsigned int> color = o->getColorVector( );
@@ -39,21 +29,48 @@ void receivedSyncGroup( zeroeq::gmrv::ConstSyncGroupPtr o )
     "\n\tkey: " << o->getKeyString( ) << 
     "\n\tname: " << o->getNameString( ) << 
     "\n\towner: " << o->getOwnerString( ) << 
-    "\n\tcolor: (" << color[0] << ", " << color[1] << ", "  << color[2] << ")" <<
-    "\n\tids: "; // << o->getIdsString( ) <<
-  std::vector< std::string > v = split( o->getIdsString( ), DELIMITER );
+    "\n\tcolor: (" << color[0] << ", " << color[1] << ", "  <<
+    color[2] << ")" <<
+    "\n\tids: "; //<< o->getIdsString( ) << ")";
+  std::vector< std::string > v = manco::ZeqManager::split( o->getIdsString( ),
+    DELIMITER );
   for ( auto it = v.begin(); it != v.end(); ++it )
   {
     std::cout << *it << ' ';
   }
   std::cout << ")" << std::endl;
 }
+
 void receivedChangeColor( zeroeq::gmrv::ConstChangeColorGroupPtr o )
 {
   std::vector<unsigned int> color = o->getColorVector( );
   std::cout << "Received ChangeColor (" << o->getKeyString( ) << ": " <<
     color[0] << ", " << color[1] << ", "  << color[2] <<
     ")" << std::endl;
+}
+
+void receivedSyncXml( zeroeq::gmrv::ConstSyncXmlPtr o )
+{
+  std::cout << "Received SyncXml (" << o->getFilenameString( ) << ")" <<
+    std::endl;
+}
+
+void receivedSyncTransferFunc( zeroeq::gmrv::ConstSyncTransferFuncPtr o )
+{
+  std::cout << "Received SyncTransferFunc (" << std::endl;
+  for ( const auto& color : o->getColors( ) )
+  {
+    std::cout << "\tcolor: (" << color.getRed( ) << ", " << color.getGreen( ) <<
+      ", " << color.getBlue( ) << ")" << std::endl;
+  }
+  std::cout << ")" << std::endl;
+  std::vector< std::string > v = manco::ZeqManager::split( o->getIdsString( ),
+    DELIMITER );
+  for ( auto it = v.begin(); it != v.end(); ++it )
+  {
+    std::cout << *it << ' ';
+  }
+  std::cout << ")" << std::endl;
 }
 
 int main( int argc, char** argv )
@@ -66,15 +83,25 @@ int main( int argc, char** argv )
     return -1;
   }
 
-  manco::ZeqManager::init( argv[ 1 ] );
+  manco::ZeqManager::instance( ).init( argv[ 1 ] );
+  std::this_thread::sleep_for( std::chrono::milliseconds( 5000 ) );
+  //manco::ZeqManager::instance().publishSyncNeeded( );
 
-  manco::ZeqManager::_receivedDestroyGroupCallback = receivedDestroyGroup;
-  manco::ZeqManager::_receivedChangeNameGroupUpdateCallback = receivedChangeNameGroup;
-  manco::ZeqManager::_receivedSyncGroupCallback = receivedSyncGroup;
-  manco::ZeqManager::_receivedChangeColorUpdateCallback = receivedChangeColor;
+  manco::ZeqManager::instance( ).setReceivedSyncXmlCallback( receivedSyncXml );
+  manco::ZeqManager::instance( ).setReceivedDestroyGroupCallback(
+    receivedDestroyGroup );
+  manco::ZeqManager::instance( ).setReceivedChangeNameGroupUpdateCallback(
+    receivedChangeNameGroup );
+  manco::ZeqManager::instance( ).setReceivedSyncGroupCallback(
+    receivedSyncGroup );
+  manco::ZeqManager::instance( ).setReceivedChangeColorUpdateCallback(
+    receivedChangeColor );
+  manco::ZeqManager::instance( ).setReceivedSyncTransferFuncCallback(
+    receivedSyncTransferFunc );
 
-  while(true) 
+  while( true )
   {
   }
+  //std::this_thread::sleep_for( std::chrono::milliseconds( 5000 ) );
   return 0;
 }
