@@ -16,7 +16,7 @@ include_directories(
 set( MANCOCONSUMER_HEADERS )
 set( MANCOCONSUMER_SOURCES consumer.cpp )
 set( MANCOCONSUMER_LINK_LIBRARIES
-  manco
+  ManCo
 )
 common_application( mancoConsumer )
 
@@ -24,6 +24,6 @@ common_application( mancoConsumer )
 set( MANCOPRODUCER_HEADERS )
 set( MANCOPRODUCER_SOURCES producer.cpp )
 set( MANCOPRODUCER_LINK_LIBRARIES
-  manco
+  ManCo
 )
 common_application( mancoProducer )

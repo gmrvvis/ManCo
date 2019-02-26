@@ -23,11 +23,11 @@ set( MANCO_SOURCES
 
 set( MANCO_LINK_LIBRARIES
   ZeroEQ
-  vishnulex
+  VishnuLex
 )
 
 if (MSVC)
   add_definitions("/W4")
 endif()
 
-common_library( manco )
+common_library( ManCo )

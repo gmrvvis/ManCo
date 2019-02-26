@@ -8,12 +8,12 @@
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 
 cmake_minimum_required( VERSION 3.1 )
-project( manco VERSION 1.0.0 )
+project( ManCo VERSION 1.0.0 )
 set( PROJECT_VERSION_MAJOR "1" )
 set( PROJECT_VERSION_MINOR "0" )
 set( PROJECT_VERSION_PATCH "0" )
 set( PROJECT_VERSION ${PROJECT_VERSION_MAJOR}.${PROJECT_VERSION_MINOR}.${PROJECT_VERSION_PATCH} )
-set( manco_VERSION_ABI 1 )
+set( ManCo_VERSION_ABI 1 )
 
 # WAR for AppleClang bug
 if ( "${CMAKE_CXX_COMPILER_ID}" STREQUAL "AppleClang" )
@@ -43,7 +43,7 @@ include( GitExternal )
 
 set( MANCO_DESCRIPTION "ManCo (MANager COntainer)" )
 set( MANCO_MAINTAINER "Gonzalo Bayo Martinez <gonzalo.bayo@urjc.es>")
-set( MANCO_LICENSE "LGPLv3" )
+set( MANCO_LICENSE "MIT" )
 set( COMMON_PROJECT_DOMAIN gmrv.es )
 
 include( Common )
@@ -52,11 +52,11 @@ include( Common )
 #set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -w" )
 
 common_find_package( ZeroEQ REQUIRED )
-common_find_package( vishnulex REQUIRED )
+common_find_package( VishnuLex REQUIRED )
 
 list( APPEND MANCO_DEPENDENT_LIBRARIES 
   ZeroEQ 
-  vishnulex
+  VishnuLex
 )
 
 common_find_package_post( )
@@ -64,14 +64,7 @@ common_find_package_post( )
 add_subdirectory( manco )
 add_subdirectory( examples )
 
-if( MSVC )
-
-  # Set manco as startup project on Visual Studio, CMake v3.6
-  if( CMAKE_VERSION VERSION_GREATER 3.6 )
-    set_property( DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT manco )
-  endif( )
-
-  
+if( MSVC )  
   # Excluded because they fail on win32 compilations
   set(EXCLUDED_FROM_BUILD
     "testschema"
