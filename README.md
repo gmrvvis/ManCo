@@ -16,8 +16,8 @@ ManCo has been successfully built and tested on Ubuntu 18.04 / Windows 10.
 The following steps are for build:
 
 ```bash
-$ git clone git@gitlab.gmrv.es:retrieval/manco.git
-$ mkdir manco/build && cd manco/build
+$ git clone https://github.com/gmrvvis/ManCo.git
+$ mkdir ManCo/build && cd ManCo/build
 $ cmake .. [-DCLONE_SUBPROJECTS=ON]
 ```
 
