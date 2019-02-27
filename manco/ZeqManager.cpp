@@ -1,10 +1,8 @@
 /* 
  * Copyright (c) 2017-2019 GMRV/URJC.
  * 
- * Authors: Cristian Rodriguez Bernal <ccrisrober@gmail.com>
+ * Authors: Cristian Rodriguez Bernal <cristian.rodriguez@urjc.es>
  *          Gonzalo Bayo Martinez <gonzalo.bayo@urjc.es>
- * 
- * This file is part of ManCo <https://gitlab.gmrv.es/retrieval/manco>
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of his software and associated documentation files (the "Software"), to deal
